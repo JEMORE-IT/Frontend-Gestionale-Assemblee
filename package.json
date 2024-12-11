@@ -10,6 +10,7 @@
     "plop": "plop"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",

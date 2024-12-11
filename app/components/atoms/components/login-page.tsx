@@ -23,7 +23,7 @@ export function LoginPage() {
     <main className="min-h-screen w-full bg-gradient-to-br from-[#3B44AC] to-[#2d3584] flex flex-col items-center justify-center p-4 relative">
       <div className="mb-8 w-full max-w-md">
         <Image
-          src="/public/logo-completo.png"
+          src="/logo-completo.png"
           alt="Gestionale Assemblee Logo"
           width={400}
           height={100}
