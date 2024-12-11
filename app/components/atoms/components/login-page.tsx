@@ -6,17 +6,34 @@ import Link from 'next/link'
 import { Button } from "@atoms/components/ui/button"
 import { Input } from "@atoms/components/ui/input"
 import { Card, CardContent } from "@atoms/components/ui/card"
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export function LoginPage() {
+  const router = useRouter()
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async  (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle login logic here
-    console.log('Login submitted:', formData)
+    try {
+      const response = await axios.post(`http://${API_BASE_URL}/authentication`, {
+        password: formData.password,
+      });
+  
+      if (response.status === 200) {
+        router.push('/assemblee');
+      } else {
+        console.log('Errore di autenticazione');
+      }
+    } catch (error) {
+      console.log('Errore di rete');
+    }
   }
 
   return (
