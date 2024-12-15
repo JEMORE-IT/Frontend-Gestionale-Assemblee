@@ -1,14 +1,19 @@
 'use client'
 
-import { useState } from "react"
+import axios from "axios"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from "react"
 import { Assembly } from "../../types/assembly"
 import { Button } from "@atoms/components/ui/button"
 import { AssemblyRow } from "@atoms/components/assembly-row"
 import { AddAssemblyDialog } from "@atoms/components/add-assembly-dialog"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+
 export default function AssembleePage() {
   const [assemblies, setAssemblies] = useState<Assembly[]>([])
+  const router = useRouter()
 
   const handleAddAssembly = (date: string) => {
     const newAssembly: Assembly = {
@@ -21,6 +26,20 @@ export default function AssembleePage() {
   const handleDeleteAssembly = (id: string) => {
     setAssemblies(assemblies.filter(assembly => assembly.id !== id))
   }
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#3B44AC] p-4">

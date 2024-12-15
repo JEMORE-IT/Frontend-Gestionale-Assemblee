@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from "@atoms/components/ui/button"
@@ -19,11 +19,31 @@ export function LoginPage() {
     password: ''
   })
 
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          router.push('/assemblee');
+        }
+      } catch (error) {
+        console.log('Errore durante la verifica del token');
+      }
+    };
+  
+    verifyToken();
+  }, []);
+
   const handleSubmit = async  (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const response = await axios.post(`http://${API_BASE_URL}/authentication`, {
         password: formData.password,
+      }, {
+        withCredentials: true,
       });
   
       if (response.status === 200) {
