@@ -17,11 +17,26 @@ export default function AssembleePage() {
   const router = useRouter()
 
   const handleAddAssembly = (date: string) => {
-    const newAssembly: Assembly = {
-      id: Math.random().toString(36).substring(7),
-      date,
+    const addRequest = async () => {
+      try {
+        const response = await axios.post(`http://${API_BASE_URL}/assembly`, {
+          date: date
+        }, {
+          withCredentials: true,
+        });
+
+        const newAssembly: Assembly = {
+          id: response.data.id,
+          date: date,
+        }
+
+        setAssemblies([...assemblies, newAssembly])
+      } catch (error) {
+        console.log('Error in handling the assembly append')
+      }
     }
-    setAssemblies([...assemblies, newAssembly])
+    
+    addRequest()
   }
 
   const handleDeleteAssembly = (id: string) => {
