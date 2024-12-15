@@ -29,6 +29,7 @@ export default function AssembleePage() {
   }
 
   useEffect(() => {
+    // varify usertoken and redirecting accordingly
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -38,8 +39,22 @@ export default function AssembleePage() {
         router.push('/')
       }
     };
+
+    const fetchAssembly = async () => {
+      try {
+        const assemblies = await axios.get(`http://${API_BASE_URL}/assembly`, {
+          withCredentials: true,
+        })
+
+        let list: Assembly[] = assemblies.data.map(({ id, date }: Assembly) => ({ id, date }));
+        setAssemblies(list)
+      } catch {
+        console.log('Error fetching the asssemblies')
+      }
+    }
   
     verifyToken();
+    fetchAssembly()
   }, []);
 
   return (
