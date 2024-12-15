@@ -14,6 +14,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 export function LoginPage() {
   const router = useRouter()
 
+  const [loginerror, setLoginerror] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -49,9 +50,11 @@ export function LoginPage() {
       if (response.status === 200) {
         router.push('/assemblee');
       } else {
+        setLoginerror(true)
         console.log('Errore di autenticazione');
       }
     } catch (error) {
+      setLoginerror(true)
       console.log('Errore di rete');
     }
   }
@@ -91,6 +94,9 @@ export function LoginPage() {
                 value={formData.username}
                 onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
                 className="w-full rounded-md border-[#3B44AC]"
+                onClick={() => {
+                  setLoginerror(false)
+                }}
                 required
               />
             </div>
@@ -109,10 +115,13 @@ export function LoginPage() {
                 value={formData.password}
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                 className="w-full rounded-md border-[#3B44AC]"
+                onClick={() => {
+                  setLoginerror(false)
+                }}
                 required
               />
             </div>
-
+            {loginerror && <label className='text-red-600'>Username o password errati</label> }
             <Button 
               type="submit"
               className="w-full mx-auto block bg-[#FFD241] hover:bg-[#3B44AC] text-[#3B44AC] hover:text-white transition-colors font-bold"
