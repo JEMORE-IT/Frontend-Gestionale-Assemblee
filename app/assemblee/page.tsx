@@ -25,12 +25,14 @@ export default function AssembleePage() {
           withCredentials: true,
         });
 
-        const newAssembly: Assembly = {
-          id: response.data.id,
-          date: date,
+        if (response.status === 200) {
+          const newAssembly: Assembly = {
+            id: response.data.id,
+            date: date,
+          }
+  
+          setAssemblies([...assemblies, newAssembly])
         }
-
-        setAssemblies([...assemblies, newAssembly])
       } catch (error) {
         console.log('Error in handling the assembly append')
       }
@@ -40,7 +42,21 @@ export default function AssembleePage() {
   }
 
   const handleDeleteAssembly = (id: string) => {
-    setAssemblies(assemblies.filter(assembly => assembly.id !== id))
+    const deleteRequest = async () => {
+      try {
+        const response = await axios.delete(`http://${API_BASE_URL}/assembly/${id}`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setAssemblies(assemblies.filter(assembly => assembly.id !== id))
+        }
+      } catch {
+        console.log('Error deleting assembly')
+      }
+    }
+
+    deleteRequest()
   }
 
   useEffect(() => {
