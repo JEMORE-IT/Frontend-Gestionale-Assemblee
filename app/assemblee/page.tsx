@@ -8,6 +8,7 @@ import { Assembly } from "../../types/assembly"
 import { Button } from "@atoms/components/ui/button"
 import { AssemblyRow } from "@atoms/components/assembly-row"
 import { AddAssemblyDialog } from "@atoms/components/add-assembly-dialog"
+import LogoutButton from "@atoms/LogoutButton"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -69,6 +70,7 @@ export default function AssembleePage() {
               Anagrafica
             </Button>
           </Link>
+          <LogoutButton/>
           <AddAssemblyDialog onAdd={handleAddAssembly} />
         </div>
       </div>
