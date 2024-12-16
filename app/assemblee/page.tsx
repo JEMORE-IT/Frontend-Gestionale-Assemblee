@@ -9,12 +9,14 @@ import { Button } from "../components/ui/button"
 import { AssemblyRow } from "@atoms/assembly-row"
 import { AddAssemblyDialog } from "@atoms/add-assembly-dialog"
 import LogoutButton from "@atoms/LogoutButton"
+import ErrorPopup from '@molecules/ErrorPopup'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function AssembleePage() {
   const [assemblies, setAssemblies] = useState<Assembly[]>([])
   const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleAddAssembly = (date: string) => {
     const addRequest = async () => {
@@ -52,7 +54,7 @@ export default function AssembleePage() {
           setAssemblies(assemblies.filter(assembly => assembly.id !== id))
         }
       } catch {
-        console.log('Error deleting assembly')
+        setErrorMessage("Impossibile cancellare l'assemblea per questione di consistenza dei dati")
       }
     }
 
@@ -119,6 +121,12 @@ export default function AssembleePage() {
           <LogoutButton/>
           <AddAssemblyDialog onAdd={handleAddAssembly} />
         </div>
+        {errorMessage && (
+          <ErrorPopup
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
       </div>
     </div>
   )

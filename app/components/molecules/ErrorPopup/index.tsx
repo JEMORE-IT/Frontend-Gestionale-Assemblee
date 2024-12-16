@@ -25,7 +25,7 @@ const ErrorPopup: FC<ErrorPopupProps> = ({ message, onClose }) => {
             Errore
           </DialogTitle>
         </DialogHeader>
-        <div className="py-4">
+        <div className="py-4 text-sm text-muted-foreground text-center">
           <p>{message}</p>
         </div>
         <DialogFooter>
