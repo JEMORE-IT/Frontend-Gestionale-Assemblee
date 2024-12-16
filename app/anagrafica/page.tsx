@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '../components/ui/button'
 import { Member } from '../../types/member'
 import MemberRow  from '@molecules/MemberRow'
+import ErrorPopup from '@molecules/ErrorPopup'
 import { AddMemberDialog } from '../components/atoms/add-member-dialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -15,6 +16,7 @@ export default function AnagraficaPage() {
   const [members, setMembers] = useState<Member[]>([])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const activeMembers = members.filter(m => m.active)
   const inactiveMembers = members.filter(m => !m.active)
@@ -81,7 +83,7 @@ export default function AnagraficaPage() {
           setMembers(members.filter(m => m.id !== id))
         }
       } catch (error) {
-        console.log('Error deleting member')
+        setErrorMessage("Impossibile cancellare il membro per motivi di consistenza dei dati.")
       }
     }
 
@@ -181,6 +183,12 @@ export default function AnagraficaPage() {
           onOpenChange={setIsAddDialogOpen}
           onAdd={handleAddMember}
         />
+        {errorMessage && (
+          <ErrorPopup
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
       </div>
     </div>
   )
