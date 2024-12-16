@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import LoginCard from '@molecules/LoginCard'
+import React, { FC } from "react";
+import LoginPageProps from "./index.types"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
-export function LoginPage() {
+const LoginPage: FC<LoginPageProps> = ({ }) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -29,8 +31,8 @@ export function LoginPage() {
   
     verifyToken();
   }, []);
-
-  return (
+  
+  return <>
     <main className="min-h-screen w-full bg-gradient-to-br from-[#3B44AC] to-[#2d3584] flex flex-col items-center justify-center p-4 relative">
       <div className="mb-8 w-full max-w-md">
         <Image
@@ -62,5 +64,7 @@ export function LoginPage() {
         </Link>
       </div>
     </main>
-  )
+  </>
 }
+
+export default LoginPage

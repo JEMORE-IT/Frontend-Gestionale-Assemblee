@@ -1,4 +1,4 @@
-import { LoginPage } from "@atoms/login-page";
+import LoginPage from "@organisms/LoginPage";
 
 export default function Home() {
   return (
