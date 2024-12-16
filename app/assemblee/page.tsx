@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { Assembly } from "../../types/assembly"
 import { Button } from "../components/ui/button"
 import { AssemblyRow } from "@atoms/assembly-row"
-import { AddAssemblyDialog } from "@atoms/add-assembly-dialog"
+import AddAssemblyDialog from "@molecules/AddAssemblyDialog"
 import LogoutButton from "@atoms/LogoutButton"
 import ErrorPopup from '@molecules/ErrorPopup'
 

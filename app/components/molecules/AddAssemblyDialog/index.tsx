@@ -1,22 +1,20 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
-import { Input } from "../ui/input"
+} from "../../ui/dialog"
+import { Input } from "../../ui/input"
 import { Plus } from 'lucide-react'
+import React, { FC } from "react";
+import AddAssemblyDialogProps from "./index.types"
 
-interface AddAssemblyDialogProps {
-  onAdd: (date: string) => void
-}
-
-export function AddAssemblyDialog({ onAdd }: AddAssemblyDialogProps) {
+const AddAssemblyDialog: FC<AddAssemblyDialogProps> = ({ onAdd }) => {
   const [date, setDate] = useState("")
   const [open, setOpen] = useState(false)
 
@@ -26,8 +24,8 @@ export function AddAssemblyDialog({ onAdd }: AddAssemblyDialogProps) {
     setDate("")
     setOpen(false)
   }
-
-  return (
+  
+  return <>
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90">
@@ -55,6 +53,7 @@ export function AddAssemblyDialog({ onAdd }: AddAssemblyDialogProps) {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  </>
 }
 
+export default AddAssemblyDialog
