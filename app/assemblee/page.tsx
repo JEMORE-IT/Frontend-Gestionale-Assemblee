@@ -5,9 +5,9 @@ import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 import { Assembly } from "../../types/assembly"
-import { Button } from "@atoms/components/ui/button"
-import { AssemblyRow } from "@atoms/components/assembly-row"
-import { AddAssemblyDialog } from "@atoms/components/add-assembly-dialog"
+import { Button } from "../components/ui/button"
+import { AssemblyRow } from "@atoms/assembly-row"
+import { AddAssemblyDialog } from "@atoms/add-assembly-dialog"
 import LogoutButton from "@atoms/LogoutButton"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL

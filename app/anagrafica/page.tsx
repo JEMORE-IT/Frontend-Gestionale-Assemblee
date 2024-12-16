@@ -4,10 +4,10 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Button } from '@atoms/components/ui/button'
+import { Button } from '../components/ui/button'
 import { Member } from '../../types/member'
-import { MemberRow } from '../components/atoms/components/member-row'
-import { AddMemberDialog } from '../components/atoms/components/add-member-dialog'
+import { MemberRow } from '../components/atoms/member-row'
+import { AddMemberDialog } from '../components/atoms/add-member-dialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { Eye, EyeOff } from 'lucide-react'
-import { Member } from '../types/member'
+import { Member } from '../../../types/member'
 import { DeleteMemberDialog } from './delete-member-dialog'
 
 interface MemberRowProps {

@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
 import LoginCardProps from "./index.types"
-import { Button } from "@atoms/components/ui/button"
-import { Input } from "@atoms/components/ui/input"
-import { Card, CardContent } from "@atoms/components/ui/card"
+import { Button } from "../../ui/button"
+import { Input } from "../../ui/input"
+import { Card, CardContent } from "../../ui/card"
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 

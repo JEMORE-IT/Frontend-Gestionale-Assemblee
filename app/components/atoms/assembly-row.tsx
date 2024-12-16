@@ -1,7 +1,7 @@
 'use client'
 
-import { Assembly } from "../../../../types/assembly"
-import { DeleteAssemblyDialog } from "@atoms/components/delete-assembly-dialog"
+import { Assembly } from "../../../types/assembly"
+import { DeleteAssemblyDialog } from "@atoms/delete-assembly-dialog"
 
 interface AssemblyRowProps {
   assembly: Assembly

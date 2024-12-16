@@ -1,4 +1,4 @@
-import { LoginPage } from "@atoms/components/login-page";
+import { LoginPage } from "@atoms/login-page";
 
 export default function Home() {
   return (

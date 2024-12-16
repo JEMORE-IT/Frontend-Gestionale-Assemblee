@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@atoms/components/ui/dialog'
-import { Button } from '@atoms/components/ui/button'
-import { Input } from '@atoms/components/ui/input'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 interface AddMemberDialogProps {
   open: boolean

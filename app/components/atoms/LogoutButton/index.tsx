@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import LogoutButtonProps from "./index.types"
-import { Button } from "@atoms/components/ui/button";
+import { Button } from "../../ui/button";
 import { ExitIcon } from "@radix-ui/react-icons"
 import { useRouter } from 'next/navigation'
 
