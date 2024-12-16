@@ -1,17 +1,10 @@
-'use client'
-
+import React, { FC } from "react";
+import MemberRowProps from "./index.types"
 import { Eye, EyeOff } from 'lucide-react'
-import { Member } from '../../../types/member'
-import { DeleteMemberDialog } from './delete-member-dialog'
+import { DeleteMemberDialog } from '@atoms/delete-member-dialog'
 
-interface MemberRowProps {
-  member: Member
-  onToggleStatus: (id: string) => void
-  onDelete: (id: string) => void
-}
-
-export function MemberRow({ member, onToggleStatus, onDelete }: MemberRowProps) {
-  return (
+const MemberRow: FC<MemberRowProps> = ({ member, onToggleStatus, onDelete }) => {
+  return <>
     <div className="flex items-center justify-between p-3 mb-2 bg-white rounded-full shadow">
       <span className="flex-grow text-center font-medium">{member.name}</span>
       <div className="flex gap-2">
@@ -29,6 +22,7 @@ export function MemberRow({ member, onToggleStatus, onDelete }: MemberRowProps) 
         <DeleteMemberDialog onDelete={() => onDelete(member.id)} />
       </div>
     </div>
-  )
+  </>
 }
 
+export default MemberRow

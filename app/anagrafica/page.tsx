@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from '../components/ui/button'
 import { Member } from '../../types/member'
-import { MemberRow } from '../components/atoms/member-row'
+import MemberRow  from '@molecules/MemberRow'
 import { AddMemberDialog } from '../components/atoms/add-member-dialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
