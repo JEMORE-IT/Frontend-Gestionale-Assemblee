@@ -1,4 +1,4 @@
-import { Member } from '../../../../types/member'
+import { Member } from '@type/member'
 
 export default interface MemberRowProps {
     member: Member

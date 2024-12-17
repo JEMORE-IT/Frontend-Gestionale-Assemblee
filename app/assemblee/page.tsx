@@ -4,7 +4,7 @@ import axios from "axios"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
-import { Assembly } from "../../types/assembly"
+import { Assembly } from "@type/assembly"
 import { Button } from "@atoms/ui/button"
 import AssemblyRow from "@molecules/AssemblyRow"
 import AddAssemblyDialog from "@molecules/AddAssemblyDialog"

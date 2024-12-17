@@ -1,4 +1,4 @@
-import { Assembly } from '../../../../types/assembly'
+import { Assembly } from '@type/assembly'
 
 export default interface AssemblyRowProps {
     assembly: Assembly
