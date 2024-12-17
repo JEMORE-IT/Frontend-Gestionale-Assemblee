@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 import { Assembly } from "../../types/assembly"
 import { Button } from "../components/ui/button"
-import { AssemblyRow } from "@atoms/assembly-row"
+import AssemblyRow from "@molecules/AssemblyRow"
 import AddAssemblyDialog from "@molecules/AddAssemblyDialog"
 import LogoutButton from "@atoms/LogoutButton"
 import ErrorPopup from '@molecules/ErrorPopup'
