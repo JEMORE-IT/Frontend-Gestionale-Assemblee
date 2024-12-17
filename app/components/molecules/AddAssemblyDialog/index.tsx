@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "../../ui/button"
+import { Button } from "@atoms/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../ui/dialog"
-import { Input } from "../../ui/input"
+} from "@atoms/ui/dialog"
+import { Input } from "@atoms/ui/input"
 import { Plus } from 'lucide-react'
 import React, { FC } from "react";
 import AddAssemblyDialogProps from "./index.types"

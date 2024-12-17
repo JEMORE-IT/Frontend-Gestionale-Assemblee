@@ -1,11 +1,11 @@
 'use client'
 
 import React, { FC } from "react";
-import { Button } from '../../ui/button'
+import { Button } from '@atoms/ui/button'
 import { AlertCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import ErrorPopupProps from "./index.types"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@atoms/ui/dialog'
 
 const ErrorPopup: FC<ErrorPopupProps> = ({ message, onClose }) => {
   const [open, setOpen] = useState(true)

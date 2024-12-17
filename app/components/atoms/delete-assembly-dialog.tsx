@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "../ui/button"
+import { Button } from "@atoms/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "@atoms/ui/dialog"
 import { Trash2 } from 'lucide-react'
 
 interface DeleteAssemblyDialogProps {
