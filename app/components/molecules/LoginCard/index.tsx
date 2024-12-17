@@ -22,6 +22,7 @@ const LoginCard: FC<LoginCardProps> = ({ }) => {
     try {
       const response = await axios.post(`http://${API_BASE_URL}/authentication`, {
         password: formData.password,
+        username: formData.username,
       }, {
         withCredentials: true,
       });
