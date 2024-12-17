@@ -25,7 +25,7 @@ const LoginPage: FC<LoginPageProps> = ({ }) => {
           router.push('/assemblee');
         }
       } catch (error) {
-        console.log('Errore durante la verifica del token');
+        console.log('Token non valido bisoogna procedere con tramite autenticazione manuale');
       }
     };
   

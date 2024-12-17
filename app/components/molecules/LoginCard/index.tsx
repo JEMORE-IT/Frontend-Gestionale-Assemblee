@@ -31,7 +31,6 @@ const LoginCard: FC<LoginCardProps> = ({ }) => {
         router.push('/assemblee');
       } else {
         setLoginerror(true)
-        console.log('Errore di autenticazione');
       }
     } catch (error) {
       setLoginerror(true)
