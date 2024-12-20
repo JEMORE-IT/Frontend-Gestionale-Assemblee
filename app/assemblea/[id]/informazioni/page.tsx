@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from "@atoms/components/ui/button"
 import { Input } from "@atoms/components/ui/input"
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -17,11 +17,23 @@ export default function InformazioniPage() {
   })
 
   const router = useRouter()
+  const { id } = useParams()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would implement the API call to save the data
-    console.log('Form data to be saved:', formData)
+    
+    try {
+      const response = await axios.put(`http://${API_BASE_URL}/assembly/${id}`, {
+        luogo: formData.luogo,
+        scopo: formData.scopo,
+        orarioCostituzione: formData.costituzione,
+        orarioScioglimento: formData.scioglimento,
+      }, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.log('Errore in fase di aggiornamento dei dati')
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +45,22 @@ export default function InformazioniPage() {
   }
 
   useEffect(() => {
+    const getAssembleaData = async () => {
+      try {
+        const assembly = await axios.get(`http://${API_BASE_URL}/assembly/${id}`, {
+          withCredentials: true,
+        });
+        setFormData({ 
+          luogo: assembly.data.luogo,
+          scopo: assembly.data.scopo,
+          costituzione: assembly.data.orarioCostituzione,
+          scioglimento: assembly.data.orarioScioglimento,
+        });
+      } catch (error) {
+        router.push('/assemblee')
+      }
+    }; 
+    
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -40,7 +68,7 @@ export default function InformazioniPage() {
         });
         
         if (response.status === 200) {
-          
+          getAssembleaData()
         }
       } catch (error) {
         router.push('/')
