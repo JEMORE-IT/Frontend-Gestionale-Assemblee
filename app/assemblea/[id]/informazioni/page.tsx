@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@atoms/components/ui/button"
 import { Input } from "@atoms/components/ui/input"
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function InformazioniPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +15,8 @@ export default function InformazioniPage() {
     costituzione: '',
     scioglimento: ''
   })
+
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,6 +31,24 @@ export default function InformazioniPage() {
       [name]: value
     }))
   }
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">

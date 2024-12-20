@@ -1,9 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AttendeeRow } from '@atoms/components/AttendeeRow'
 import { Button } from "@atoms/components/ui/button"
 import { AddAttendeeDialog } from '@atoms/components/AddAttendeeDialog'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function PresentiPage() {
   const [attendees, setAttendees] = useState([
@@ -14,6 +18,8 @@ export default function PresentiPage() {
     { id: 5, name: 'Socio 5', status: 'Presente' },
   ])
 
+  const router = useRouter()
+
   const handleDelete = (id: number) => {
     setAttendees(attendees.filter(attendee => attendee.id !== id))
   }
@@ -22,6 +28,24 @@ export default function PresentiPage() {
     const newId = Math.max(...attendees.map(a => a.id)) + 1
     setAttendees([...attendees, { id: newId, name, status }])
   }
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">

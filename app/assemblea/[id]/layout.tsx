@@ -3,12 +3,14 @@
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { useParams, usePathname  } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import '../../globals.css'
+import axios from 'axios'
 
 const inter = Inter({ subsets: ['latin'] })
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function RootLayout({
   children,
@@ -22,6 +24,24 @@ export default function RootLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <html lang="it">
@@ -75,12 +95,18 @@ export default function RootLayout({
                 <button className="w-full rounded-lg bg-black px-4 py-2 text-sm text-white">
                   Download
                 </button>
-                <button className="w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm">
+                <Link
+                  href="/anagrafica"
+                  className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
+                >
                   Anagrafica
-                </button>
-                <button className="w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm">
+                </Link>
+                <Link
+                  href="/assemblee"
+                  className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
+                >
                   Assemblee
-                </button>
+                </Link>
               </div>
             </div>
           </aside>

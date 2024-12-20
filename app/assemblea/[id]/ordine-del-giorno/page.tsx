@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AgendaItem } from '@atoms/components/AgendaItem'
 import { VotingItem } from '@atoms/components/VotingItem'
 import { AddAgendaItemDialog } from '@atoms/components/AddAgendaItemDialog'
 import { AddVotingItemDialog } from '@atoms/components/AddVotingItemDialog'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 interface AgendaItemType {
   id: number
@@ -16,6 +18,8 @@ interface AgendaItemType {
     astenuti: number
   }
 }
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function OrdineDelGiornoPage() {
   const [items, setItems] = useState<AgendaItemType[]>([
@@ -35,6 +39,8 @@ export default function OrdineDelGiornoPage() {
       }
     }
   ])
+
+  const router = useRouter()
 
   const handleDelete = (id: number) => {
     setItems(items.filter(item => item.id !== id))
@@ -64,6 +70,24 @@ export default function OrdineDelGiornoPage() {
       votes: dummyVotes
     }])
   }
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">

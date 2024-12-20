@@ -1,9 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DelegationRow } from '@atoms/components/DelegationRow'
 import { Button } from "@atoms/components/ui/button"
 import { AddDelegationDialog } from '@atoms/components/AddDelegationDialog'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function DeleghePage() {
   const [delegations, setDelegations] = useState([
@@ -14,6 +18,8 @@ export default function DeleghePage() {
     { id: 5, delegante: 'Socio 5', delegato: 'Socio 2' },
   ])
 
+  const router = useRouter()
+
   const handleDelete = (id: number) => {
     setDelegations(delegations.filter(delegation => delegation.id !== id))
   }
@@ -22,6 +28,24 @@ export default function DeleghePage() {
     const newId = Math.max(...delegations.map(d => d.id)) + 1
     setDelegations([...delegations, { id: newId, delegante, delegato }])
   }
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        });
+        
+        if (response.status === 200) {
+          
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    };
+  
+    verifyToken();
+  }, []);
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">
