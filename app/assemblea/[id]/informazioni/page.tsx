@@ -29,9 +29,7 @@ export default function InformazioniPage() {
   const { id } = useParams()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setModified(false)
-    
+    e.preventDefault()    
     try {
       const response = await axios.put(`http://${API_BASE_URL}/assembly/${id}`, {
         luogo: formData.luogo,
@@ -42,6 +40,7 @@ export default function InformazioniPage() {
         withCredentials: true,
       });
       setInitialData(formData)
+      setModified(false)
     } catch (error) {
       console.log('Errore in fase di aggiornamento dei dati')
     }

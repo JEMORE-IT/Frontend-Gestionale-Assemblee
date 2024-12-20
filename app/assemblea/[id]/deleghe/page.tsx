@@ -4,21 +4,17 @@ import { useEffect, useState } from 'react'
 import { DelegationRow } from '@atoms/components/DelegationRow'
 import { Button } from "@atoms/components/ui/button"
 import { AddDelegationDialog } from '@atoms/components/AddDelegationDialog'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
+import { Delegation } from '@type/delegation'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function DeleghePage() {
-  const [delegations, setDelegations] = useState([
-    { id: 1, delegante: 'Socio 1', delegato: 'Socio 1' },
-    { id: 2, delegante: 'Socio 2', delegato: 'Socio 1' },
-    { id: 3, delegante: 'Socio 3', delegato: 'Socio 1' },
-    { id: 4, delegante: 'Socio 4', delegato: 'Socio 2' },
-    { id: 5, delegante: 'Socio 5', delegato: 'Socio 2' },
-  ])
+  const [delegations, setDelegations] = useState<Delegation[]>([])
 
   const router = useRouter()
+  const { id } = useParams()
 
   const handleDelete = (id: number) => {
     setDelegations(delegations.filter(delegation => delegation.id !== id))
@@ -26,10 +22,29 @@ export default function DeleghePage() {
 
   const handleAdd = (delegante: string, delegato: string) => {
     const newId = Math.max(...delegations.map(d => d.id)) + 1
-    setDelegations([...delegations, { id: newId, delegante, delegato }])
+    setDelegations([...delegations, { id: newId, delegante, delegato } as Delegation])
   }
 
   useEffect(() => {
+    const fetchDelegations = async () => {
+      try {
+        const delegations = await axios.get(`http://${API_BASE_URL}/delegation`, {
+          withCredentials: true,
+        });
+        if (delegations.status === 200) {
+          let list: Delegation[] = delegations.data.map((p: any) => ({
+            id: p.id,
+            delegante: p.delegante.name,
+            delegato: p.delegato.name,
+            assembly: p.assembly.id
+          } as Delegation));
+          setDelegations(list);
+        }
+      } catch (error) {
+        console.log('Errore nel caricare le presenze')
+      }
+    };
+
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -37,7 +52,7 @@ export default function DeleghePage() {
         });
         
         if (response.status === 200) {
-          
+          fetchDelegations();
         }
       } catch (error) {
         router.push('/')
@@ -58,7 +73,7 @@ export default function DeleghePage() {
         </div>
         
         <div className="space-y-2">
-          {delegations.map((delegation) => (
+          {delegations.filter((d) => d.assembly === +id).map((delegation) => (
             <DelegationRow
               key={delegation.id}
               id={delegation.id}
