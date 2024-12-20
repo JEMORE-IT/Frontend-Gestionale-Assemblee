@@ -22,10 +22,24 @@ export default function RootLayout({
 
   const { id } = useParams()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [assembleaData, setAssembleaData] = useState({
+    data: '',
+  })
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
 
   useEffect(() => {
+    const getAssembleaData = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/assembly/${id}`, {
+          withCredentials: true,
+        });
+        setAssembleaData({ data: response.data.date });
+      } catch (error) {
+        router.push('/assemblee')
+      }
+    };  
+
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -33,7 +47,7 @@ export default function RootLayout({
         });
         
         if (response.status === 200) {
-          
+          getAssembleaData();
         }
       } catch (error) {
         router.push('/')
@@ -41,7 +55,7 @@ export default function RootLayout({
     };
   
     verifyToken();
-  }, []);
+  }, [id]);
 
   return (
     <html lang="it">
@@ -65,7 +79,7 @@ export default function RootLayout({
               <div className="p-6 flex-grow">
                 <div className="mb-6" >
                   <h2 className="mt-6 md:mt-0 text-xl font-bold">Assemblea</h2>
-                  <p className="text-sm text-gray-600">10-10-2024</p>
+                  <p className="text-sm text-gray-600">{assembleaData.data}</p>
                 </div>
                 
                 <nav className="space-y-2">

@@ -53,7 +53,6 @@ export default function PresentiPage() {
           setAttendees(list);
         }
       } catch (error) {
-        console.log(id)
         console.log('Errore nel caricare le presenze')
       }
     };
