@@ -16,11 +16,21 @@ export default function InformazioniPage() {
     scioglimento: ''
   })
 
+  const [initialData, setInitialData] = useState({
+    luogo: '',
+    scopo: '',
+    costituzione: '',
+    scioglimento: ''
+  })
+
+  const [modified, setModified] = useState(false)
+
   const router = useRouter()
   const { id } = useParams()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setModified(false)
     
     try {
       const response = await axios.put(`http://${API_BASE_URL}/assembly/${id}`, {
@@ -31,6 +41,7 @@ export default function InformazioniPage() {
       }, {
         withCredentials: true,
       });
+      setInitialData(formData)
     } catch (error) {
       console.log('Errore in fase di aggiornamento dei dati')
     }
@@ -39,9 +50,10 @@ export default function InformazioniPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
-      ...prev,
+     ...prev,
       [name]: value
     }))
+    setModified(true)
   }
 
   useEffect(() => {
@@ -56,6 +68,13 @@ export default function InformazioniPage() {
           costituzione: assembly.data.orarioCostituzione,
           scioglimento: assembly.data.orarioScioglimento,
         });
+        setInitialData({ 
+          luogo: assembly.data.luogo,
+          scopo: assembly.data.scopo,
+          costituzione: assembly.data.orarioCostituzione,
+          scioglimento: assembly.data.orarioScioglimento,
+        });
+        setModified(false)
       } catch (error) {
         router.push('/assemblee')
       }
@@ -140,6 +159,11 @@ export default function InformazioniPage() {
                 required
               />
             </div>
+            {modified && (
+              <div className="text-red-600 text-sm mt-2">
+                Attenzione: sono state apportate modifiche non salvate.
+              </div>
+            )}
           </div>
         </div>
 
@@ -155,4 +179,3 @@ export default function InformazioniPage() {
     </div>
   )
 }
-
