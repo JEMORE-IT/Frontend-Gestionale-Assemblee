@@ -114,7 +114,6 @@ export default function InformazioniPage() {
                 value={formData.luogo}
                 onChange={handleChange}
                 className="flex-1"
-                required
               />
             </div>
 
@@ -127,7 +126,6 @@ export default function InformazioniPage() {
                 value={formData.scopo}
                 onChange={handleChange}
                 className="flex-1"
-                required
               />
             </div>
 
@@ -141,7 +139,6 @@ export default function InformazioniPage() {
                 value={formData.costituzione}
                 onChange={handleChange}
                 className="flex-1"
-                required
               />
             </div>
 
@@ -155,7 +152,6 @@ export default function InformazioniPage() {
                 value={formData.scioglimento}
                 onChange={handleChange}
                 className="flex-1"
-                required
               />
             </div>
             {modified && (
