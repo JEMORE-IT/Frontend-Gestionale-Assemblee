@@ -6,19 +6,27 @@ import { Button } from "@atoms/components/ui/button"
 import { AddAttendeeDialog } from '@atoms/components/AddAttendeeDialog'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { Attendee } from '@type/attendee'
+import { useParams } from 'next/navigation'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
+const enumToType = (n: number): string => {
+  const presenceTypes: { [key: number]: string } = {
+    1: 'Presente',
+    2: 'Assente',
+    3: 'Online',
+    4: 'Delega',
+  };
+
+  return presenceTypes[n] || 'Tipo non valido';
+}
+
 export default function PresentiPage() {
-  const [attendees, setAttendees] = useState([
-    { id: 1, name: 'Socio 1', status: 'Presente' },
-    { id: 2, name: 'Socio 2', status: 'Assente' },
-    { id: 3, name: 'Socio 3', status: 'Online' },
-    { id: 4, name: 'Socio 4', status: 'Delega' },
-    { id: 5, name: 'Socio 5', status: 'Presente' },
-  ])
+  const [attendees, setAttendees] = useState<Attendee[]>([])
 
   const router = useRouter()
+  const { id } = useParams()
 
   const handleDelete = (id: number) => {
     setAttendees(attendees.filter(attendee => attendee.id !== id))
@@ -26,10 +34,30 @@ export default function PresentiPage() {
 
   const handleAdd = (name: string, status: string) => {
     const newId = Math.max(...attendees.map(a => a.id)) + 1
-    setAttendees([...attendees, { id: newId, name, status }])
+    setAttendees([...attendees, { id: newId, name, status } as Attendee])
   }
 
   useEffect(() => {
+    const fetchPresences = async () => {
+      try {
+        const presences = await axios.get(`http://${API_BASE_URL}/presence`, {
+          withCredentials: true,
+        });
+        if (presences.status === 200) {
+          let list: Attendee[] = presences.data.map((p: any) => ({
+            id: p.id,
+            name: p.member.name,
+            assembly: p.assembly.id,
+            status: enumToType(p.presenza)
+          } as Attendee));
+          setAttendees(list);
+        }
+      } catch (error) {
+        console.log(id)
+        console.log('Errore nel caricare le presenze')
+      }
+    };
+
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -37,7 +65,8 @@ export default function PresentiPage() {
         });
         
         if (response.status === 200) {
-          
+          // Token valido, procedi con il fetch delle presenze
+          fetchPresences();
         }
       } catch (error) {
         router.push('/')
@@ -58,7 +87,7 @@ export default function PresentiPage() {
         </div>
         
         <div className="space-y-2">
-          {attendees.map((attendee) => (
+          {attendees.filter((a) => a.assembly === +id).map((attendee) => (
             <AttendeeRow
               key={attendee.id}
               id={attendee.id}
