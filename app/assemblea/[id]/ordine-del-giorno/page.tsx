@@ -7,6 +7,7 @@ import { AddAgendaItemDialog } from '@atoms/components/AddAgendaItemDialog'
 import { AddVotingItemDialog } from '@atoms/components/AddVotingItemDialog'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { Item } from '@radix-ui/react-select'
 
 interface AgendaItemType {
   id: number
@@ -115,6 +116,11 @@ export default function OrdineDelGiornoPage() {
               />
             )
           ))}
+          {items.length === 0 && (
+              <p className="text-center text-gray-500">
+                Nessun punto prensente
+              </p>
+          )}
         </div>
       </div>
 

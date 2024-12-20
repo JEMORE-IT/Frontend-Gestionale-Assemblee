@@ -95,6 +95,11 @@ export default function PresentiPage() {
               onDelete={handleDelete}
             />
           ))}
+          {attendees.length === 0 && (
+              <p className="text-center text-gray-500">
+                Nessuna presenza
+              </p>
+          )}
         </div>
       </div>
 

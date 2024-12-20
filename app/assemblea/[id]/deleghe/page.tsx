@@ -67,6 +67,11 @@ export default function DeleghePage() {
               onDelete={handleDelete}
             />
           ))}
+          {delegations.length === 0 && (
+              <p className="text-center text-gray-500">
+                Nessuna delega presente
+              </p>
+          )}
         </div>
       </div>
 
