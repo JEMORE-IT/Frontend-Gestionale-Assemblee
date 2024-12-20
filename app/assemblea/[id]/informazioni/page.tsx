@@ -1,0 +1,106 @@
+'use client'
+
+import { useState } from 'react'
+import { Button } from "@atoms/components/ui/button"
+import { Input } from "@atoms/components/ui/input"
+
+export default function InformazioniPage() {
+  const [formData, setFormData] = useState({
+    luogo: '',
+    scopo: '',
+    costituzione: '',
+    scioglimento: ''
+  })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // Here you would implement the API call to save the data
+    console.log('Form data to be saved:', formData)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  return (
+    <div className="flex h-full flex-col p-4 md:p-8">
+      <h1 className="mb-4 md:mb-8 text-2xl md:text-3xl font-bold text-white text-center">
+        Informazioni
+      </h1>
+      
+      <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        <div className="rounded-lg bg-white p-4 md:p-6">
+          <div className="space-y-4 md:space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+              <label className="text-base md:text-lg font-semibold md:min-w-[200px]">
+                Luogo
+              </label>
+              <Input
+                name="luogo"
+                value={formData.luogo}
+                onChange={handleChange}
+                className="flex-1"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+              <label className="text-base md:text-lg font-semibold md:min-w-[200px]">
+                Scopo dela riunione
+              </label>
+              <Input
+                name="scopo"
+                value={formData.scopo}
+                onChange={handleChange}
+                className="flex-1"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+              <label className="text-base md:text-lg font-semibold md:min-w-[200px]">
+                Costituzione
+              </label>
+              <Input
+                type="time"
+                name="costituzione"
+                value={formData.costituzione}
+                onChange={handleChange}
+                className="flex-1"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+              <label className="text-base md:text-lg font-semibold md:min-w-[200px]">
+                Scioglimento
+              </label>
+              <Input
+                type="time"
+                name="scioglimento"
+                value={formData.scioglimento}
+                onChange={handleChange}
+                className="flex-1"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Button 
+            type="submit"
+            className="w-full md:w-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90 text-base md:text-lg py-2 px-4 md:py-3 md:px-6"
+          >
+            Salva
+          </Button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
