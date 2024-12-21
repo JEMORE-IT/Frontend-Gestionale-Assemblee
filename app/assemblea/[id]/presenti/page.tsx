@@ -42,7 +42,21 @@ export default function PresentiPage() {
   const { id } = useParams()
 
   const handleDelete = (id: number) => {
-    setAttendees(attendees.filter(attendee => attendee.id !== id))
+    const deleteRequest = async () => {
+      try {
+        const response = await axios.delete(`http://${API_BASE_URL}/presence/${id}`, {
+          withCredentials: true,
+        })
+
+        if (response.status === 200) {
+          setAttendees(attendees.filter(m => m.id !== id))
+        }
+      } catch (error) {
+        console.log("Impossibile cancellare il membro per motivi di consistenza dei dati.")
+      }
+    }
+
+    deleteRequest()
   }
 
   const handleAdd = (mid: number | null, status: string) => {
