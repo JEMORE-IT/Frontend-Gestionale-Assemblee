@@ -12,19 +12,14 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@atoms/components/ui/select"
 import { Plus } from 'lucide-react'
 import SearchableDropdown from "@atoms/SearchableDropdown" // Assumendo che sia salvato in questo percorso
+import { Option } from "@atoms/SearchableDropdown/index.types"
 
 interface AddAttendeeDialogProps {
+  options: Option[] // Prop per ricevere l'array delle opzioni
   onAdd: (name: string, status: string) => void
 }
 
-const options = [
-  { id: 1, name: "Mario Rossi" },
-  { id: 2, name: "Giulia Bianchi" },
-  { id: 3, name: "Luca Verdi" },
-  { id: 4, name: "Anna Neri" },
-]
-
-export function AddAttendeeDialog({ onAdd }: AddAttendeeDialogProps) {
+export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
   const [name, setName] = useState<string | null>(null)
   const [status, setStatus] = useState("")
   const [open, setOpen] = useState(false)

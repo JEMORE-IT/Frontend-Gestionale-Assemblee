@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { Attendee } from '@type/attendee'
 import { useParams } from 'next/navigation'
+import { Option } from '@atoms/SearchableDropdown/index.types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -22,8 +23,10 @@ const enumToType = (n: number): string => {
   return presenceTypes[n] || 'Tipo non valido';
 }
 
+
 export default function PresentiPage() {
   const [attendees, setAttendees] = useState<Attendee[]>([])
+  const [members, setMembers] = useState<Option[]>([])
 
   const router = useRouter()
   const { id } = useParams()
@@ -57,6 +60,22 @@ export default function PresentiPage() {
       }
     };
 
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/member`, {
+          withCredentials: true,
+        })
+        let list: Option[] = response.data.map((r: any) => ({
+          id: r.id,
+          name: r.name
+        }))
+        console.log(list)
+        setMembers(list)
+      } catch (error) {
+        console.log('Error fetching members')
+      }
+    }
+
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -73,6 +92,7 @@ export default function PresentiPage() {
     };
   
     verifyToken();
+    fetchMembers();
   }, []);
 
   return (
@@ -107,7 +127,7 @@ export default function PresentiPage() {
         <Button className="bg-white text-[#3B44AC] hover:bg-gray-100 text-sm md:text-base">
           Carica
         </Button>
-        <AddAttendeeDialog onAdd={handleAdd} />
+        <AddAttendeeDialog options={members} onAdd={handleAdd} />
       </div>
     </div>
   )

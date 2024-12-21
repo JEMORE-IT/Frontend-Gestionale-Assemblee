@@ -1,5 +1,6 @@
 export interface Option {
-    [key: string]: string | number;
+    id: number,
+    name: string
 }
 
 export default interface SearchableDropdownProps {
