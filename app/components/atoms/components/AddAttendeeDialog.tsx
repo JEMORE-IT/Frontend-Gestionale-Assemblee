@@ -9,28 +9,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@atoms/components/ui/dialog"
-import { Input } from "@atoms/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@atoms/components/ui/select"
 import { Plus } from 'lucide-react'
+import SearchableDropdown from "@atoms/SearchableDropdown" // Assumendo che sia salvato in questo percorso
 
 interface AddAttendeeDialogProps {
   onAdd: (name: string, status: string) => void
 }
 
+const options = [
+  { id: 1, name: "Mario Rossi" },
+  { id: 2, name: "Giulia Bianchi" },
+  { id: 3, name: "Luca Verdi" },
+  { id: 4, name: "Anna Neri" },
+]
+
 export function AddAttendeeDialog({ onAdd }: AddAttendeeDialogProps) {
-  const [name, setName] = useState("")
+  const [name, setName] = useState<string | null>(null)
   const [status, setStatus] = useState("")
   const [open, setOpen] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!status) return // Prevent submission if status is not selected
+    if (!name || !status) return // Prevent submission if name or status is not selected
     onAdd(name, status)
     setName("")
     setStatus("")
     setOpen(false)
   }
-  
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -44,18 +51,30 @@ export function AddAttendeeDialog({ onAdd }: AddAttendeeDialogProps) {
           <DialogTitle>Aggiungi Partecipante</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            placeholder="Nome del partecipante"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <div className="space-y-2">
-            <Select 
-              value={status} 
-              onValueChange={setStatus} 
-              required
+          {/* Componente SearchableDropdown */}
+          <div>
+            <label
+              htmlFor="participantName"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
+              Nome del partecipante
+            </label>
+            <SearchableDropdown
+              id="participantName"
+              options={options}
+              label="name"
+              selectedVal={name || ""}
+              handleChange={setName}
+            />
+            {name === "" && (
+              <p className="text-sm text-red-500">
+                Il nome del partecipante è obbligatorio
+              </p>
+            )}
+          </div>
+          {/* Selezione della modalità di partecipazione */}
+          <div className="space-y-2">
+            <Select value={status} onValueChange={setStatus} required>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Modalità di partecipazione *" />
               </SelectTrigger>
@@ -72,10 +91,10 @@ export function AddAttendeeDialog({ onAdd }: AddAttendeeDialogProps) {
               </p>
             )}
           </div>
-          <Button 
+          <Button
             type="submit"
             className="w-full mx-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90"
-            disabled={!status}
+            disabled={!name || !status}
           >
             OK
           </Button>
@@ -84,4 +103,3 @@ export function AddAttendeeDialog({ onAdd }: AddAttendeeDialogProps) {
     </Dialog>
   )
 }
-

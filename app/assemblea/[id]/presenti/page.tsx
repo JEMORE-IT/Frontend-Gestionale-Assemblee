@@ -34,7 +34,7 @@ export default function PresentiPage() {
 
   const handleAdd = (name: string, status: string) => {
     const newId = Math.max(...attendees.map(a => a.id)) + 1
-    setAttendees([...attendees, { id: newId, name, status } as Attendee])
+    setAttendees([...attendees, { id: newId, name, status, assembly: +id } as Attendee])
   }
 
   useEffect(() => {
