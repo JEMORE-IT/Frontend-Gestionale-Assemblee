@@ -8,5 +8,5 @@ export default interface SearchableDropdownProps {
     label: string;
     id: string;
     selectedVal: string | null;
-    handleChange: (value: string | null) => void;
+    handleChange: (value: string | null, id: number | null) => void;
 }

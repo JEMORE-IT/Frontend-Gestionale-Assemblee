@@ -16,21 +16,28 @@ import { Option } from "@atoms/SearchableDropdown/index.types"
 
 interface AddAttendeeDialogProps {
   options: Option[] // Prop per ricevere l'array delle opzioni
-  onAdd: (name: string, status: string) => void
+  onAdd: (mid: number | null, status: string) => void
 }
 
 export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
   const [name, setName] = useState<string | null>(null)
+  const [memberId, setMemberId] = useState<number | null>(null)
   const [status, setStatus] = useState("")
   const [open, setOpen] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!name || !status) return // Prevent submission if name or status is not selected
-    onAdd(name, status)
+    onAdd(memberId, status)
     setName("")
+    setMemberId(null)
     setStatus("")
     setOpen(false)
+  }
+
+  const handleChange = (value: string | null, mid: number | null) => {
+    setName(value)
+    setMemberId(mid)
   }
 
   return (
@@ -59,7 +66,7 @@ export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
               options={options}
               label="name"
               selectedVal={name || ""}
-              handleChange={setName}
+              handleChange={handleChange}
             />
             {name === "" && (
               <p className="text-sm text-red-500">

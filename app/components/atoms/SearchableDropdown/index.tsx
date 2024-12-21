@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import SearchableDropdownProps, { Option } from "./index.types"
+import { CaretDownIcon } from "@radix-ui/react-icons"
 
 const SearchableDropdown: FC<SearchableDropdownProps> = ({
   options,
@@ -33,7 +34,7 @@ const SearchableDropdown: FC<SearchableDropdownProps> = ({
   // Selezionare un'opzione dal menu
   const selectOption = (option: Option) => {
     setQuery("");
-    handleChange(option.name); // Passa il valore selezionato al genitore
+    handleChange(option.name, option.id); // Passa il valore selezionato al genitore
     setIsOpen(false);
   };
 
@@ -61,7 +62,7 @@ const SearchableDropdown: FC<SearchableDropdownProps> = ({
           value={getDisplayValue()}
           onChange={(e) => {
             setQuery(e.target.value); // Aggiorna la query di ricerca
-            handleChange(null); // Resetta il valore selezionato
+            handleChange(null, null); // Resetta il valore selezionato
           }}
           onClick={() => setIsOpen(!isOpen)} // Alterna il menu a tendina
           className="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -73,7 +74,7 @@ const SearchableDropdown: FC<SearchableDropdownProps> = ({
             isOpen ? "rotate-180" : ""
           } transition-transform`}
         >
-          ▼
+          <CaretDownIcon/>
         </div>
       </div>
 

@@ -23,6 +23,16 @@ const enumToType = (n: number): string => {
   return presenceTypes[n] || 'Tipo non valido';
 }
 
+const typeToEnum = (status: string): number => {
+  const presenceTypes: { [key: string]: number } = {
+    "Presente": 1,
+    "Assente": 2,
+    "Online": 3,
+    "Delega": 4,
+  };
+
+  return presenceTypes[status] || -1;
+}
 
 export default function PresentiPage() {
   const [attendees, setAttendees] = useState<Attendee[]>([])
@@ -35,9 +45,36 @@ export default function PresentiPage() {
     setAttendees(attendees.filter(attendee => attendee.id !== id))
   }
 
-  const handleAdd = (name: string, status: string) => {
-    const newId = Math.max(...attendees.map(a => a.id)) + 1
-    setAttendees([...attendees, { id: newId, name, status, assembly: +id } as Attendee])
+  const handleAdd = (mid: number | null, status: string) => {
+    const addRequest = async () => {
+      try {
+        const response = await axios.post(`http://${API_BASE_URL}/presence`, {
+          presenza:typeToEnum(status),
+          assembly: +id,
+          member: mid
+        }, {
+          withCredentials: true,
+        })
+
+        if (response.status === 200) {
+          const newAttendee: Attendee = {
+            id: response.data.id,
+            status: status as any,
+            assembly:  response.data.assembly.id,
+            name:  response.data.member.name
+          }
+          setAttendees([...attendees, newAttendee])
+        }
+      } catch (error) {
+        console.log('Error adding presence')
+      }
+    }
+    
+    if (mid == null) {
+      return
+    }
+    
+    addRequest()
   }
 
   useEffect(() => {
@@ -69,7 +106,6 @@ export default function PresentiPage() {
           id: r.id,
           name: r.name
         }))
-        console.log(list)
         setMembers(list)
       } catch (error) {
         console.log('Error fetching members')
