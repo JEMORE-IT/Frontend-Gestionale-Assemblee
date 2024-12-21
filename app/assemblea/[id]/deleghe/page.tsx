@@ -7,11 +7,13 @@ import { AddDelegationDialog } from '@atoms/components/AddDelegationDialog'
 import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Delegation } from '@type/delegation'
+import { Option } from '@atoms/SearchableDropdown/index.types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function DeleghePage() {
   const [delegations, setDelegations] = useState<Delegation[]>([])
+  const [members, setMembers] = useState<Option[]>([])
 
   const router = useRouter()
   const { id } = useParams()
@@ -21,11 +23,28 @@ export default function DeleghePage() {
   }
 
   const handleAdd = (delegante: string, delegato: string) => {
+    console.log(delegante)
+    console.log(delegato)
     const newId = Math.max(...delegations.map(d => d.id)) + 1
-    setDelegations([...delegations, { id: newId, delegante, delegato } as Delegation])
+    setDelegations([...delegations, { id: newId, delegante, delegato, assembly:+id } as Delegation])
   }
 
   useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/member`, {
+          withCredentials: true,
+        })
+        let list: Option[] = response.data.map((r: any) => ({
+          id: r.id,
+          name: r.name
+        }))
+        setMembers(list)
+      } catch (error) {
+        console.log('Error fetching members')
+      }
+    }
+
     const fetchDelegations = async () => {
       try {
         const delegations = await axios.get(`http://${API_BASE_URL}/delegation`, {
@@ -53,6 +72,7 @@ export default function DeleghePage() {
         
         if (response.status === 200) {
           fetchDelegations();
+          fetchMembers()
         }
       } catch (error) {
         router.push('/')
@@ -94,7 +114,7 @@ export default function DeleghePage() {
         <Button className="bg-white text-[#3B44AC] hover:bg-gray-100 text-sm md:text-base">
           Carica
         </Button>
-        <AddDelegationDialog onAdd={handleAdd} />
+        <AddDelegationDialog options={members} onAdd={handleAdd} />
       </div>
     </div>
   )

@@ -9,26 +9,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@atoms/components/ui/dialog"
-import { Input } from "@atoms/components/ui/input"
 import { Plus } from 'lucide-react'
+import SearchableDropdown from "@atoms/SearchableDropdown"
+import { Option } from "@atoms/SearchableDropdown/index.types"
 
 interface AddDelegationDialogProps {
+  options: Option[] // Prop per ricevere l'array delle opzioni
   onAdd: (delegante: string, delegato: string) => void
 }
 
-export function AddDelegationDialog({ onAdd }: AddDelegationDialogProps) {
-  const [delegante, setDelegante] = useState("")
-  const [delegato, setDelegato] = useState("")
+export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps) {
+  const [delegante, setDelegante] = useState<string | null>(null)
+  const [delegato, setDelegato] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!delegante || !delegato) return // Prevent submission if delegante or delegato is not selected
     onAdd(delegante, delegato)
-    setDelegante("")
-    setDelegato("")
+    setDelegante(null)
+    setDelegato(null)
     setOpen(false)
   }
-  
+
+  const handleDeleganteChange = (value: string | null) => {
+    setDelegante(value)
+  }
+
+  const handleDelegatoChange = (value: string | null) => {
+    setDelegato(value)
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -42,21 +53,54 @@ export function AddDelegationDialog({ onAdd }: AddDelegationDialogProps) {
           <DialogTitle>Aggiungi Delega</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            placeholder="Nome del delegante"
-            value={delegante}
-            onChange={(e) => setDelegante(e.target.value)}
-            required
-          />
-          <Input
-            placeholder="Nome del delegato"
-            value={delegato}
-            onChange={(e) => setDelegato(e.target.value)}
-            required
-          />
+          {/* Componente SearchableDropdown per il delegante */}
+          <div>
+            <label
+              htmlFor="delegante"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Delegante
+            </label>
+            <SearchableDropdown
+              id="delegante"
+              options={options}
+              label="name"
+              selectedVal={delegante || ""}
+              handleChange={handleDeleganteChange}
+            />
+            {delegante === "" && (
+              <p className="text-sm text-red-500">
+                Il nome del delegante è obbligatorio
+              </p>
+            )}
+          </div>
+
+          {/* Componente SearchableDropdown per il delegato */}
+          <div>
+            <label
+              htmlFor="delegato"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Delegato
+            </label>
+            <SearchableDropdown
+              id="delegato"
+              options={options}
+              label="name"
+              selectedVal={delegato || ""}
+              handleChange={handleDelegatoChange}
+            />
+            {delegato === "" && (
+              <p className="text-sm text-red-500">
+                Il nome del delegato è obbligatorio
+              </p>
+            )}
+          </div>
+
           <Button 
             type="submit"
             className="w-full mx-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90"
+            disabled={!delegante || !delegato}
           >
             OK
           </Button>
@@ -65,4 +109,3 @@ export function AddDelegationDialog({ onAdd }: AddDelegationDialogProps) {
     </Dialog>
   )
 }
-
