@@ -94,7 +94,7 @@ export default function PresentiPage() {
   useEffect(() => {
     const fetchPresences = async () => {
       try {
-        const presences = await axios.get(`http://${API_BASE_URL}/presence`, {
+        const presences = await axios.get(`http://${API_BASE_URL}/presence/assembly/${id}`, {
           withCredentials: true,
         });
         if (presences.status === 200) {
@@ -156,7 +156,7 @@ export default function PresentiPage() {
         </div>
         
         <div className="space-y-2">
-          {attendees.filter((a) => a.assembly === +id).map((attendee) => (
+          {attendees.map((attendee) => (
             <AttendeeRow
               key={attendee.id}
               id={attendee.id}
