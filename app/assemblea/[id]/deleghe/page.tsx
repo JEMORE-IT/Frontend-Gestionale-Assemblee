@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { DelegationRow } from '@atoms/DelegationRow'
+import DelegationRow from '@molecules/DelegationRow'
 import { Button } from "@atoms/ui/button"
 import { AddDelegationDialog } from '@atoms/AddDelegationDialog'
 import { useParams, useRouter } from 'next/navigation'

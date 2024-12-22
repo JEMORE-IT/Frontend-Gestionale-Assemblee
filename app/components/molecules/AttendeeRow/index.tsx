@@ -1,13 +1,10 @@
-import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog"
+'use client'
 
-interface AttendeeRowProps {
-  id: number
-  name: string
-  status: string
-  onDelete: (id: number) => void
-}
+import React, { FC } from "react";
+import AttendeeRowProps from "./index.types";
+import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
 
-export function AttendeeRow({ id, name, status, onDelete }: AttendeeRowProps) {
+const AttendeeRow: FC<AttendeeRowProps> = ({ id, name, status, onDelete }) => {
   return (
     <div className="flex items-center justify-between rounded-full border px-4 py-2">
       <div className="grid grid-cols-2 flex-1 gap-4">
@@ -16,6 +13,7 @@ export function AttendeeRow({ id, name, status, onDelete }: AttendeeRowProps) {
       </div>
       <DeleteConfirmationDialog onDelete={() => onDelete(id)} itemName="partecipante" />
     </div>
-  )
-}
+  );
+};
 
+export default AttendeeRow;

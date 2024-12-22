@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AttendeeRow } from '@atoms/AttendeeRow'
+import AttendeeRow from '@molecules/AttendeeRow'
 import { Button } from "@atoms/ui/button"
 import { AddAttendeeDialog } from '@atoms/AddAttendeeDialog'
 import axios from 'axios'

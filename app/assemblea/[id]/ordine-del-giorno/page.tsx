@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AgendaItem } from '@atoms/AgendaItem'
-import { VotingItem } from '@atoms/VotingItem'
+import AgendaItem from '@molecules/AgendaItem'
+import VotingItem from '@molecules/VotingItem'
 import { AddAgendaItemDialog } from '@atoms/AddAgendaItemDialog'
 import { AddVotingItemDialog } from '@atoms/AddVotingItemDialog'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import { Item } from '@radix-ui/react-select'
 
 interface AgendaItemType {
   id: number

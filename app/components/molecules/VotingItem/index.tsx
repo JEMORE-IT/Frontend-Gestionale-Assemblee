@@ -1,19 +1,10 @@
-import { Button } from "@atoms/ui/button"
-import { Trash2 } from 'lucide-react'
-import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog"
+'use client'
 
-interface VotingItemProps {
-  id: number
-  text: string
-  votes: {
-    favorevoli: number
-    contrari: number
-    astenuti: number
-  }
-  onDelete: (id: number) => void
-}
+import React, { FC } from "react";
+import VotingItemProps from "./index.types";
+import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
 
-export function VotingItem({ id, text, votes, onDelete }: VotingItemProps) {
+const VotingItem: FC<VotingItemProps> = ({ id, text, votes, onDelete }) => {
   return (
     <div className="relative flex flex-col rounded-3xl sm:rounded-full border p-4 pr-12">
       <div className="mb-4 pr-4 text-center">{text}</div>
@@ -35,6 +26,7 @@ export function VotingItem({ id, text, votes, onDelete }: VotingItemProps) {
         <DeleteConfirmationDialog onDelete={() => onDelete(id)} itemName="votazione" />
       </div>
     </div>
-  )
-}
+  );
+};
 
+export default VotingItem;
