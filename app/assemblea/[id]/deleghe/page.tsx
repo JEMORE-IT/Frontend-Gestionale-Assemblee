@@ -89,7 +89,7 @@ export default function DeleghePage() {
 
     const fetchDelegations = async () => {
       try {
-        const delegations = await axios.get(`http://${API_BASE_URL}/delegation`, {
+        const delegations = await axios.get(`http://${API_BASE_URL}/delegation/assembly/${id}`, {
           withCredentials: true,
         });
         if (delegations.status === 200) {
@@ -135,7 +135,7 @@ export default function DeleghePage() {
         </div>
         
         <div className="space-y-2">
-          {delegations.filter((d) => d.assembly === +id).map((delegation) => (
+          {delegations.map((delegation) => (
             <DelegationRow
               key={delegation.id}
               id={delegation.id}
