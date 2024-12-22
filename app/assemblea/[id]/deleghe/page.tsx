@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { DelegationRow } from '@atoms/components/DelegationRow'
-import { Button } from "@atoms/components/ui/button"
-import { AddDelegationDialog } from '@atoms/components/AddDelegationDialog'
+import { DelegationRow } from '@atoms/DelegationRow'
+import { Button } from "@atoms/ui/button"
+import { AddDelegationDialog } from '@atoms/AddDelegationDialog'
 import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Delegation } from '@type/delegation'

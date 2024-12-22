@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Button } from "@atoms/components/ui/button"
-import { Input } from "@atoms/components/ui/input"
+import { Button } from "@atoms/ui/button"
+import { Input } from "@atoms/ui/input"
 import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 

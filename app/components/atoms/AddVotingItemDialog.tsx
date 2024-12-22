@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useRef } from "react"
-import { Button } from "@atoms/components/ui/button"
+import { Button } from "@atoms/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/components/ui/dialog"
-import { Textarea } from "@atoms/components/ui/textarea"
+} from "@atoms/ui/dialog"
+import { Textarea } from "@atoms/ui/textarea"
 import { Plus, Upload } from 'lucide-react'
 
 interface AddVotingItemDialogProps {

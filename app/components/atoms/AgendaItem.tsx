@@ -1,4 +1,4 @@
-import { Button } from "@atoms/components/ui/button"
+import { Button } from "@atoms/ui/button"
 import { Trash2 } from 'lucide-react'
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog"
 

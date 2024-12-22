@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AttendeeRow } from '@atoms/components/AttendeeRow'
-import { Button } from "@atoms/components/ui/button"
-import { AddAttendeeDialog } from '@atoms/components/AddAttendeeDialog'
+import { AttendeeRow } from '@atoms/AttendeeRow'
+import { Button } from "@atoms/ui/button"
+import { AddAttendeeDialog } from '@atoms/AddAttendeeDialog'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { Attendee } from '@type/attendee'

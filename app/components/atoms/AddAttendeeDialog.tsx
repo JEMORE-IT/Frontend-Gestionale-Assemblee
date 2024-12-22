@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "@atoms/components/ui/button"
+import { Button } from "@atoms/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@atoms/components/ui/select"
+} from "@atoms/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@atoms/ui/select"
 import { Plus } from 'lucide-react'
 import SearchableDropdown from "@atoms/SearchableDropdown" // Assumendo che sia salvato in questo percorso
 import { Option } from "@atoms/SearchableDropdown/index.types"

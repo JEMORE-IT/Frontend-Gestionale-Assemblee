@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "@atoms/components/ui/button"
+import { Button } from "@atoms/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/components/ui/dialog"
+} from "@atoms/ui/dialog"
 import { Plus } from 'lucide-react'
 import SearchableDropdown from "@atoms/SearchableDropdown"
 import { Option } from "@atoms/SearchableDropdown/index.types"

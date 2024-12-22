@@ -1,4 +1,4 @@
-import { DeleteConfirmationDialog } from "@atoms/components/DeleteConfirmationDialog"
+import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog"
 
 interface AttendeeRowProps {
   id: number
