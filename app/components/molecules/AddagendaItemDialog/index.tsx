@@ -1,5 +1,5 @@
-'use client'
-
+import React, { FC } from "react";
+import AddagendaItemDialogProps from "./index.types"
 import { useState } from "react"
 import { Button } from "@atoms/ui/button"
 import {
@@ -12,11 +12,7 @@ import {
 import { Textarea } from "@atoms/ui/textarea"
 import { Plus } from 'lucide-react'
 
-interface AddAgendaItemDialogProps {
-  onAdd: (text: string) => void
-}
-
-export function AddAgendaItemDialog({ onAdd }: AddAgendaItemDialogProps) {
+const AddagendaItemDialog: FC<AddagendaItemDialogProps> = ({ onAdd }) => {
   const [text, setText] = useState("")
   const [open, setOpen] = useState(false)
 
@@ -59,3 +55,4 @@ export function AddAgendaItemDialog({ onAdd }: AddAgendaItemDialogProps) {
   )
 }
 
+export default AddagendaItemDialog

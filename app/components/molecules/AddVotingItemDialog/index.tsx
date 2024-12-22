@@ -1,46 +1,43 @@
-'use client'
+'use client';
 
-import { useState, useRef } from "react"
-import { Button } from "@atoms/ui/button"
+import React, { FC, useState, useRef } from 'react';
+import { Button } from '@atoms/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/ui/dialog"
-import { Textarea } from "@atoms/ui/textarea"
-import { Plus, Upload } from 'lucide-react'
+} from '@atoms/ui/dialog';
+import { Textarea } from '@atoms/ui/textarea';
+import { Plus, Upload } from 'lucide-react';
+import AddVotingItemDialogProps from './index.types';
 
-interface AddVotingItemDialogProps {
-  onAdd: (text: string, file: File) => void
-}
-
-export function AddVotingItemDialog({ onAdd }: AddVotingItemDialogProps) {
-  const [text, setText] = useState("")
-  const [file, setFile] = useState<File | null>(null)
-  const [open, setOpen] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+const AddVotingItemDialog: FC<AddVotingItemDialogProps> = ({ onAdd }) => {
+  const [text, setText] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [open, setOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!file) return
-    onAdd(text, file)
-    setText("")
-    setFile(null)
-    setOpen(false)
-  }
+    e.preventDefault();
+    if (!file) return;
+    onAdd(text, file);
+    setText('');
+    setFile(null);
+    setOpen(false);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
+      setFile(e.target.files[0]);
     }
-  }
+  };
 
   const handleFileClick = () => {
-    fileInputRef.current?.click()
-  }
-  
+    fileInputRef.current?.click();
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -61,7 +58,6 @@ export function AddVotingItemDialog({ onAdd }: AddVotingItemDialogProps) {
             className="min-h-[100px]"
             required
           />
-          
           <div className="space-y-2">
             <input
               type="file"
@@ -94,8 +90,7 @@ export function AddVotingItemDialog({ onAdd }: AddVotingItemDialogProps) {
               </p>
             )}
           </div>
-
-          <Button 
+          <Button
             type="submit"
             className="w-full mx-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90"
             disabled={!file}
@@ -105,6 +100,7 @@ export function AddVotingItemDialog({ onAdd }: AddVotingItemDialogProps) {
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
+export default AddVotingItemDialog;

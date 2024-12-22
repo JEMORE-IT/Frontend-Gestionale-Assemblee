@@ -1,48 +1,43 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import { Button } from "@atoms/ui/button"
+import React, { FC, useState } from 'react';
+import { Button } from '@atoms/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/ui/dialog"
-import { Plus } from 'lucide-react'
-import SearchableDropdown from "@atoms/SearchableDropdown"
-import { Option } from "@atoms/SearchableDropdown/index.types"
+} from '@atoms/ui/dialog';
+import SearchableDropdown from '@atoms/SearchableDropdown';
+import AddDelegationDialogProps from './index.types';
+import { Plus } from 'lucide-react';
 
-interface AddDelegationDialogProps {
-  options: Option[] // Prop per ricevere l'array delle opzioni
-  onAdd: (idDelegante: number | null, idDelegato: number | null) => void
-}
-
-export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps) {
-  const [delegante, setDelegante] = useState<string | null>(null)
-  const [delegato, setDelegato] = useState<string | null>(null)
-  const [deleganteId, setDeleganteId] = useState<number | null>(null)
-  const [delegatoId, setDelegatoId] = useState<number | null>(null)
-  const [open, setOpen] = useState(false)
+const AddDelegationDialog: FC<AddDelegationDialogProps> = ({ options, onAdd }) => {
+  const [delegante, setDelegante] = useState<string | null>(null);
+  const [delegato, setDelegato] = useState<string | null>(null);
+  const [deleganteId, setDeleganteId] = useState<number | null>(null);
+  const [delegatoId, setDelegatoId] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!delegante || !delegato) return // Prevent submission if delegante or delegato is not selected
-    onAdd(deleganteId, delegatoId)
-    setDelegante(null)
-    setDelegato(null)
-    setOpen(false)
-  }
+    e.preventDefault();
+    if (!delegante || !delegato) return; // Impedisce l'invio se delegante o delegato non sono selezionati
+    onAdd(deleganteId, delegatoId);
+    setDelegante(null);
+    setDelegato(null);
+    setOpen(false);
+  };
 
   const handleDeleganteChange = (value: string | null, da: number | null) => {
-    setDelegante(value)
-    setDeleganteId(da)
-  }
+    setDelegante(value);
+    setDeleganteId(da);
+  };
 
   const handleDelegatoChange = (value: string | null, riceve: number | null) => {
-    setDelegato(value)
-    setDelegatoId(riceve)
-  }
+    setDelegato(value);
+    setDelegatoId(riceve);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -57,7 +52,7 @@ export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps
           <DialogTitle>Aggiungi Delega</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Componente SearchableDropdown per il delegante */}
+          {/* Dropdown per selezionare il delegante */}
           <div>
             <label
               htmlFor="delegante"
@@ -69,17 +64,17 @@ export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps
               id="delegante"
               options={options}
               label="name"
-              selectedVal={delegante || ""}
+              selectedVal={delegante || ''}
               handleChange={handleDeleganteChange}
             />
-            {delegante === "" && (
+            {delegante === '' && (
               <p className="text-sm text-red-500">
                 Il nome del delegante è obbligatorio
               </p>
             )}
           </div>
 
-          {/* Componente SearchableDropdown per il delegato */}
+          {/* Dropdown per selezionare il delegato */}
           <div>
             <label
               htmlFor="delegato"
@@ -91,17 +86,17 @@ export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps
               id="delegato"
               options={options}
               label="name"
-              selectedVal={delegato || ""}
+              selectedVal={delegato || ''}
               handleChange={handleDelegatoChange}
             />
-            {delegato === "" && (
+            {delegato === '' && (
               <p className="text-sm text-red-500">
                 Il nome del delegato è obbligatorio
               </p>
             )}
           </div>
 
-          <Button 
+          <Button
             type="submit"
             className="w-full mx-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90"
             disabled={!delegante || !delegato}
@@ -111,5 +106,7 @@ export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
+
+export default AddDelegationDialog;

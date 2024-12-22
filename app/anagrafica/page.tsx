@@ -8,7 +8,7 @@ import { Button } from '@atoms/ui/button'
 import { Member } from '@type/member'
 import MemberRow  from '@molecules/MemberRow'
 import ErrorPopup from '@molecules/ErrorPopup'
-import { AddMemberDialog } from '../components/atoms/add-member-dialog'
+import AddMemberDialog from '@molecules/AddMemberDialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 

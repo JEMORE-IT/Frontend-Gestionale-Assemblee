@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import DelegationRow from '@molecules/DelegationRow'
 import { Button } from "@atoms/ui/button"
-import { AddDelegationDialog } from '@atoms/AddDelegationDialog'
+import AddDelegationDialog from '@molecules/AddDelegationDialog'
 import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Delegation } from '@type/delegation'

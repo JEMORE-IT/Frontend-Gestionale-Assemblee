@@ -1,44 +1,45 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import { Button } from "@atoms/ui/button"
+import React, { FC, useState } from 'react';
+import { Button } from '@atoms/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@atoms/ui/select"
-import { Plus } from 'lucide-react'
-import SearchableDropdown from "@atoms/SearchableDropdown" // Assumendo che sia salvato in questo percorso
-import { Option } from "@atoms/SearchableDropdown/index.types"
+} from '@atoms/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@atoms/ui/select';
+import SearchableDropdown from '@atoms/SearchableDropdown';
+import AddAttendeeDialogProps from './index.types';
+import { Plus } from 'lucide-react';
 
-interface AddAttendeeDialogProps {
-  options: Option[] // Prop per ricevere l'array delle opzioni
-  onAdd: (mid: number | null, status: string) => void
-}
-
-export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
-  const [name, setName] = useState<string | null>(null)
-  const [memberId, setMemberId] = useState<number | null>(null)
-  const [status, setStatus] = useState("")
-  const [open, setOpen] = useState(false)
+const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, onAdd }) => {
+  const [name, setName] = useState<string | null>(null);
+  const [memberId, setMemberId] = useState<number | null>(null);
+  const [status, setStatus] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!name || !status) return // Prevent submission if name or status is not selected
-    onAdd(memberId, status)
-    setName("")
-    setMemberId(null)
-    setStatus("")
-    setOpen(false)
-  }
+    e.preventDefault();
+    if (!name || !status) return; // Evita l'invio se name o status non sono selezionati
+    onAdd(memberId, status);
+    setName('');
+    setMemberId(null);
+    setStatus('');
+    setOpen(false);
+  };
 
   const handleChange = (value: string | null, mid: number | null) => {
-    setName(value)
-    setMemberId(mid)
-  }
+    setName(value);
+    setMemberId(mid);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -53,7 +54,7 @@ export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
           <DialogTitle>Aggiungi Partecipante</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Componente SearchableDropdown */}
+          {/* Dropdown per il nome del partecipante */}
           <div>
             <label
               htmlFor="participantName"
@@ -65,16 +66,17 @@ export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
               id="participantName"
               options={options}
               label="name"
-              selectedVal={name || ""}
+              selectedVal={name || ''}
               handleChange={handleChange}
             />
-            {name === "" && (
+            {name === '' && (
               <p className="text-sm text-red-500">
                 Il nome del partecipante è obbligatorio
               </p>
             )}
           </div>
-          {/* Selezione della modalità di partecipazione */}
+
+          {/* Dropdown per selezionare la modalità di partecipazione */}
           <div className="space-y-2">
             <Select value={status} onValueChange={setStatus} required>
               <SelectTrigger className="w-full">
@@ -87,12 +89,13 @@ export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
                 <SelectItem value="Delega">Delega</SelectItem>
               </SelectContent>
             </Select>
-            {status === "" && (
+            {status === '' && (
               <p className="text-sm text-red-500">
                 La modalità di partecipazione è obbligatoria
               </p>
             )}
           </div>
+
           <Button
             type="submit"
             className="w-full mx-auto bg-[#FFD241] text-[#3B44AC] hover:bg-[#FFD241]/90"
@@ -103,5 +106,7 @@ export function AddAttendeeDialog({ options, onAdd }: AddAttendeeDialogProps) {
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
+
+export default AddAttendeeDialog;
