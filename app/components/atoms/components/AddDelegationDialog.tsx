@@ -15,29 +15,33 @@ import { Option } from "@atoms/SearchableDropdown/index.types"
 
 interface AddDelegationDialogProps {
   options: Option[] // Prop per ricevere l'array delle opzioni
-  onAdd: (delegante: string, delegato: string) => void
+  onAdd: (idDelegante: number | null, idDelegato: number | null) => void
 }
 
 export function AddDelegationDialog({ options, onAdd }: AddDelegationDialogProps) {
   const [delegante, setDelegante] = useState<string | null>(null)
   const [delegato, setDelegato] = useState<string | null>(null)
+  const [deleganteId, setDeleganteId] = useState<number | null>(null)
+  const [delegatoId, setDelegatoId] = useState<number | null>(null)
   const [open, setOpen] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!delegante || !delegato) return // Prevent submission if delegante or delegato is not selected
-    onAdd(delegante, delegato)
+    onAdd(deleganteId, delegatoId)
     setDelegante(null)
     setDelegato(null)
     setOpen(false)
   }
 
-  const handleDeleganteChange = (value: string | null) => {
+  const handleDeleganteChange = (value: string | null, da: number | null) => {
     setDelegante(value)
+    setDeleganteId(da)
   }
 
-  const handleDelegatoChange = (value: string | null) => {
+  const handleDelegatoChange = (value: string | null, riceve: number | null) => {
     setDelegato(value)
+    setDelegatoId(riceve)
   }
 
   return (

@@ -22,11 +22,39 @@ export default function DeleghePage() {
     setDelegations(delegations.filter(delegation => delegation.id !== id))
   }
 
-  const handleAdd = (delegante: string, delegato: string) => {
-    console.log(delegante)
-    console.log(delegato)
-    const newId = Math.max(...delegations.map(d => d.id)) + 1
-    setDelegations([...delegations, { id: newId, delegante, delegato, assembly:+id } as Delegation])
+  const handleAdd = (delegante: number | null, delegato: number | null) => {
+    const addRequest = async () => {
+      if (delegante === null || delegato === null) {
+        console.log('Delegante o delegato non validi');
+        return;
+      }
+  
+      try {
+        const response = await axios.post(`http://${API_BASE_URL}/delegation`, {
+          assembly: +id,
+          delegante: delegante,
+          delegato: delegato,
+        }, {
+          withCredentials: true,
+        });
+  
+        if (response.status === 200) {
+          const newDelegation: Delegation = {
+            id: response.data.id,
+            delegante: response.data.delegante.name,
+            delegato: response.data.delegato.name,
+            assembly: response.data.assembly.id,
+          };
+  
+          // Aggiunge la nuova delega alla lista esistente
+          setDelegations([...delegations, newDelegation]);
+        }
+      } catch (error) {
+        console.error('Errore durante l\'aggiunta della delega:', error);
+      }
+    };
+  
+    addRequest();
   }
 
   useEffect(() => {
