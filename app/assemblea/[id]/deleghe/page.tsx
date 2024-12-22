@@ -19,7 +19,21 @@ export default function DeleghePage() {
   const { id } = useParams()
 
   const handleDelete = (id: number) => {
-    setDelegations(delegations.filter(delegation => delegation.id !== id))
+    const deleteRequest = async () => {
+      try {
+        const response = await axios.delete(`http://${API_BASE_URL}/delegation/${id}`, {
+          withCredentials: true,
+        });
+  
+        if (response.status === 200) {
+          setDelegations(delegations.filter(delegation => delegation.id !== id));
+        }
+      } catch (error) {
+        console.error('Errore durante l\'eliminazione della delega:', error);
+      }
+    };
+  
+    deleteRequest();
   }
 
   const handleAdd = (delegante: number | null, delegato: number | null) => {
