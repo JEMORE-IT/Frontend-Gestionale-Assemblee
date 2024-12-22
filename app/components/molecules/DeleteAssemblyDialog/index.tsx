@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from "react"
-import { Button } from "@atoms/ui/button"
+import React, { FC, useState } from "react";
+import { Button } from "@atoms/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,43 +10,39 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/ui/dialog"
-import { Trash2 } from 'lucide-react'
+} from "@atoms/ui/dialog";
+import { Trash2 } from "lucide-react";
+import DeleteAssemblyDialogProps from "./index.types";
 
-interface DeleteConfirmationDialogProps {
-  onDelete: () => void
-  itemName: string
-}
-
-export function DeleteConfirmationDialog({ onDelete, itemName }: DeleteConfirmationDialogProps) {
-  const [open, setOpen] = useState(false)
+const DeleteAssemblyDialog: FC<DeleteAssemblyDialogProps> = ({ onDelete }) => {
+  const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    onDelete()
-    setOpen(false)
-  }
+    onDelete();
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon">
           <Trash2 className="h-5 w-5 text-red-600" />
-          <span className="sr-only">Delete {itemName}</span>
+          <span className="sr-only">Delete assembly</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Conferma eliminazione</DialogTitle>
           <DialogDescription>
-            Sei sicuro di voler eliminare questo {itemName}? Questa azione non può essere annullata.
+            Sei sicuro di voler eliminare questa assemblea? Questa azione non può essere annullata.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
             Annulla
           </Button>
-          <Button 
-            variant="destructive" 
+          <Button
+            variant="destructive"
             onClick={handleDelete}
             className="bg-red-600 hover:bg-red-700"
           >
@@ -55,6 +51,7 @@ export function DeleteConfirmationDialog({ onDelete, itemName }: DeleteConfirmat
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
+export default DeleteAssemblyDialog;

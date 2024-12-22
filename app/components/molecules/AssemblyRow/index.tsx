@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import AssemblyRowProps from "./index.types"
-import { DeleteAssemblyDialog } from "@atoms/delete-assembly-dialog"
+import DeleteAssemblyDialog from "@molecules/DeleteAssemblyDialog"
 import Link from 'next/link';
 
 const AssemblyRow: FC<AssemblyRowProps> = ({ assembly, onDelete }) => {

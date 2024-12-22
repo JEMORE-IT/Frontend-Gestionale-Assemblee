@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import VotingItemProps from "./index.types";
-import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@molecules/DeleteConfirmationDialog";
 
 const VotingItem: FC<VotingItemProps> = ({ id, text, votes, onDelete }) => {
   return (

@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import AttendeeRowProps from "./index.types";
-import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@molecules/DeleteConfirmationDialog";
 
 const AttendeeRow: FC<AttendeeRowProps> = ({ id, name, status, onDelete }) => {
   return (

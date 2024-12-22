@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import { Button } from "@atoms/ui/button"
+import React, { FC, useState } from 'react';
+import { Button } from '@atoms/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -10,25 +10,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@atoms/ui/dialog"
-import { Trash2 } from 'lucide-react'
+} from '@atoms/ui/dialog';
+import { Trash2 } from 'lucide-react';
+import DeleteMemberDialogProps from './index.types';
 
-interface DeleteMemberDialogProps {
-  onDelete: () => void
-}
-
-export function DeleteMemberDialog({ onDelete }: DeleteMemberDialogProps) {
-  const [open, setOpen] = useState(false)
+const DeleteMemberDialog: FC<DeleteMemberDialogProps> = ({ onDelete }) => {
+  const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    onDelete()
-    setOpen(false)
-  }
+    onDelete();
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
+        >
           <Trash2 className="h-5 w-5 text-red-500" />
           <span className="sr-only">Elimina membro</span>
         </Button>
@@ -44,8 +45,8 @@ export function DeleteMemberDialog({ onDelete }: DeleteMemberDialogProps) {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Annulla
           </Button>
-          <Button 
-            variant="destructive" 
+          <Button
+            variant="destructive"
             onClick={handleDelete}
             className="bg-red-600 hover:bg-red-700"
           >
@@ -54,6 +55,7 @@ export function DeleteMemberDialog({ onDelete }: DeleteMemberDialogProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
+export default DeleteMemberDialog;

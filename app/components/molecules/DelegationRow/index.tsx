@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import DelegationRowProps from "./index.types";
-import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@molecules/DeleteConfirmationDialog";
 
 const DelegationRow: FC<DelegationRowProps> = ({ id, delegante, delegato, onDelete }) => {
   return (

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import MemberRowProps from "./index.types"
 import { Eye, EyeOff } from 'lucide-react'
-import { DeleteMemberDialog } from '@atoms/delete-member-dialog'
+import DeleteMemberDialog from '@molecules/DeleteMemberDialog'
 
 const MemberRow: FC<MemberRowProps> = ({ member, onToggleStatus, onDelete }) => {
   return <>

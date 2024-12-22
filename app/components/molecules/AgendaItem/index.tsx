@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import AgendaItemProps from "./index.types";
-import { DeleteConfirmationDialog } from "@atoms/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@molecules/DeleteConfirmationDialog";
 
 const AgendaItem: FC<AgendaItemProps> = ({ id, text, onDelete }) => {
   return (
