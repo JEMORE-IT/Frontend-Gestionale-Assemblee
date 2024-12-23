@@ -64,7 +64,7 @@ const AddVotingItemDialog: FC<AddVotingItemDialogProps> = ({ onAdd }) => {
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              accept=".csv,.xlsx,.xls"
+              accept=".csv"
               required
             />
             <Button
@@ -86,7 +86,7 @@ const AddVotingItemDialog: FC<AddVotingItemDialogProps> = ({ onAdd }) => {
             </Button>
             {!file && (
               <p className="text-xs text-muted-foreground">
-                Formati supportati: CSV, Excel
+                Formati supportati: CSV
               </p>
             )}
           </div>

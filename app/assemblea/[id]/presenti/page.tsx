@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import AttendeeRow from '@molecules/AttendeeRow'
-import { Button } from "@atoms/ui/button"
 import AddAttendeeDialog from '@molecules/AddAttendeeDialog'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'

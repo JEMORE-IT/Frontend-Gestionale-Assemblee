@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@atoms/ui/dialog';
-import { Plus, Upload } from 'lucide-react';
+import { Upload } from 'lucide-react';
 
 const AddBulkDialog: FC<AddBulkDialogProps> = ({ text, onAdd }) => {
     const [file, setFile] = useState<File | null>(null);
@@ -51,7 +51,7 @@ const AddBulkDialog: FC<AddBulkDialogProps> = ({ text, onAdd }) => {
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              accept=".csv,.xlsx,.xls"
+              accept=".csv"
               required
             />
             <Button
@@ -73,7 +73,7 @@ const AddBulkDialog: FC<AddBulkDialogProps> = ({ text, onAdd }) => {
             </Button>
             {!file && (
               <p className="text-xs text-muted-foreground">
-                Formati supportati: CSV, Excel
+                Formati supportati: CSV
               </p>
             )}
           </div>
