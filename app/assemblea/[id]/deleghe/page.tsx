@@ -8,6 +8,7 @@ import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Delegation } from '@type/delegation'
 import { Option } from '@atoms/SearchableDropdown/index.types'
+import AddBulkDialog from '@molecules/AddBulkDialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -34,6 +35,10 @@ export default function DeleghePage() {
     };
   
     deleteRequest();
+  }
+
+  const handleBulkAdd = (file: File) => {
+    
   }
 
   const handleAdd = (delegante: number | null, delegato: number | null) => {
@@ -153,9 +158,7 @@ export default function DeleghePage() {
       </div>
 
       <div className="mt-4 flex justify-between">
-        <Button className="bg-white text-[#3B44AC] hover:bg-gray-100 text-sm md:text-base">
-          Carica
-        </Button>
+        <AddBulkDialog text="Aggiungi deleghe in blocco" onAdd={handleBulkAdd} />
         <AddDelegationDialog options={members} onAdd={handleAdd} />
       </div>
     </div>

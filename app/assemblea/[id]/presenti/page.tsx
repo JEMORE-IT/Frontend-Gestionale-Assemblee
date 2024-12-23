@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Attendee } from '@type/attendee'
 import { useParams } from 'next/navigation'
 import { Option } from '@atoms/SearchableDropdown/index.types'
+import AddBulkDialog from '@molecules/AddBulkDialog'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -57,6 +58,10 @@ export default function PresentiPage() {
     }
 
     deleteRequest()
+  }
+
+  const handleBulkAdd = (file: File) => {
+    
   }
 
   const handleAdd = (mid: number | null, status: string) => {
@@ -174,9 +179,7 @@ export default function PresentiPage() {
       </div>
 
       <div className="mt-4 flex justify-between">
-        <Button className="bg-white text-[#3B44AC] hover:bg-gray-100 text-sm md:text-base">
-          Carica
-        </Button>
+        <AddBulkDialog text="Aggiungi presenze in blocco" onAdd={handleBulkAdd} />
         <AddAttendeeDialog options={members} onAdd={handleAdd} />
       </div>
     </div>
