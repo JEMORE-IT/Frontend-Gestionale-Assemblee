@@ -23,6 +23,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function OrdineDelGiornoPage() {
   const [items, setItems] = useState<AgendaItemType[]>([])
+  const [members, setMembers] = useState<{ id: number, name: string }[]>([])
   const router = useRouter()
   const { id } = useParams()
 
@@ -57,6 +58,17 @@ export default function OrdineDelGiornoPage() {
       }
     }
 
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/member`, {
+          withCredentials: true,
+        })
+        setMembers(response.data)
+      } catch (error) {
+        console.error('Errore nel fetch dei membri:', error)
+      }
+    }
+
     const verifyToken = async () => {
       try {
         const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
@@ -65,6 +77,7 @@ export default function OrdineDelGiornoPage() {
         
         if (response.status === 200) {
           fetchItems()
+          fetchMembers()
         }
       } catch (error) {
         router.push('/')
@@ -112,13 +125,62 @@ export default function OrdineDelGiornoPage() {
   }
 
   const handleAddVotingItem = async (text: string, file: File) => {
-    const newId = Math.max(...items.map(item => item.id)) + 1
-    const dummyVotes = {
-      favorevoli: 0,
-      contrari: 0,
-      astenuti: 0
+    try {
+      const lineResponse = await axios.post(`http://${API_BASE_URL}/line`, {
+        text,
+        assembly: id,
+        type: 'voting'
+      }, {
+        withCredentials: true,
+      })
+
+      if (lineResponse.status === 200) {
+        const newLineId = lineResponse.data.id
+
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+          const content = e.target?.result as string
+          const lines = content.split('\n').slice(1) // Skip header line
+          const votes = []
+
+          for (const line of lines) {
+            const [name, vote] = line.split(',')
+            const member = members.find(m => m.name.trim() === name.trim())
+
+            if (member) {
+              const voteType = vote.trim() === 'Favorevole' ? 1 : vote.trim() === 'Contrario' ? 2 : vote.trim() === 'Astenuto' ? 0 : null
+              if (voteType !== null) {
+                votes.push({
+                  vote: voteType,
+                  member: member.id,
+                  riga: newLineId,
+                  assembly: +id
+                })
+              }
+            }
+          }
+
+          await axios.post(`http://${API_BASE_URL}/vote/bulk-create`, votes, {
+            withCredentials: true,
+          })
+
+          const resultsResponse = await axios.get(`http://${API_BASE_URL}/line/results/${newLineId}`, {
+            withCredentials: true,
+          })
+
+          const newItem: AgendaItemType = {
+            id: newLineId,
+            type: 'voting',
+            text,
+            votes: resultsResponse.data
+          }
+          setItems([...items, newItem])
+        }
+        reader.readAsText(file)
+      }
+    } catch (error) {
+      console.error('Errore durante l\'aggiunta della votazione:', error)
     }
-    setItems([...items, { id: newId, type: 'voting', text, votes: dummyVotes }])
   }
 
   return (
