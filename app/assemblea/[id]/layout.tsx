@@ -28,6 +28,24 @@ export default function RootLayout({
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
 
+  const downloadVerbale = async () => {
+    try {
+      const response = await axios.get(`http://${API_BASE_URL}/download/${id}/`, {
+        responseType: 'blob',
+        withCredentials: true,
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `verbale_${id}.txt`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Errore durante il download del verbale:', error);
+    }
+  };
+
   useEffect(() => {
     const getAssembleaData = async () => {
       try {
@@ -104,7 +122,10 @@ export default function RootLayout({
           </div>
 
           <div className="space-y-2 p-6">
-            <button className="w-full rounded-lg bg-black px-4 py-2 text-sm text-white">
+            <button 
+              className="w-full rounded-lg bg-black px-4 py-2 text-sm text-white"
+              onClick={downloadVerbale}
+            >
               Download
             </button>
             <Link
