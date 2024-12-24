@@ -74,8 +74,18 @@ export default function OrdineDelGiornoPage() {
     verifyToken()
   }, [id])
 
-  const handleDelete = (id: number) => {
-    setItems(items.filter(item => item.id !== id))
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await axios.delete(`http://${API_BASE_URL}/line/${id}`, {
+        withCredentials: true,
+      })
+
+      if (response.status === 200) {
+        setItems(items.filter(item => item.id !== id))
+      }
+    } catch (error) {
+      console.error('Errore durante la cancellazione del punto:', error)
+    }
   }
 
   const handleAddAgendaItem = async (text: string) => {
@@ -83,6 +93,7 @@ export default function OrdineDelGiornoPage() {
       const response = await axios.post(`http://${API_BASE_URL}/line`, {
         text,
         assembly: id,
+        type: 'text'
       }, {
         withCredentials: true,
       })
