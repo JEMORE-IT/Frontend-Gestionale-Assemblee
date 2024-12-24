@@ -6,9 +6,9 @@ import DeleteConfirmationDialog from "@molecules/DeleteConfirmationDialog";
 
 const VotingItem: FC<VotingItemProps> = ({ id, text, votes, onDelete }) => {
   return (
-    <div className="relative flex flex-col rounded-3xl sm:rounded-full border p-4 pr-12">
-      <div className="mb-4 pr-4 text-center">{text}</div>
-      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-8 gap-4 sm:gap-0">
+    <div className="relative flex flex-col rounded-3xl md:rounded-full border p-4 md:pr-12">
+      <div className="mb-4 md:pr-4 text-center">{text}</div>
+      <div className="flex flex-col md:flex-row justify-between px-4 md:px-8 gap-4 md:gap-0">
         <div className="text-center">
           <div className="text-green-600 font-medium">Favorevoli</div>
           <div className="text-lg">{votes.favorevoli}</div>

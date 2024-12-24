@@ -5,7 +5,7 @@ import AgendaItem from '@molecules/AgendaItem'
 import VotingItem from '@molecules/VotingItem'
 import AddAgendaItemDialog from '@molecules/AddagendaItemDialog'
 import AddVotingItemDialog from '@molecules/AddVotingItemDialog'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 
 interface AgendaItemType {
@@ -22,25 +22,57 @@ interface AgendaItemType {
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export default function OrdineDelGiornoPage() {
-  const [items, setItems] = useState<AgendaItemType[]>([
-    {
-      id: 1,
-      type: 'text',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 2,
-      type: 'voting',
-      text: 'Votazione Luca Grassi Responsabile Culo:',
-      votes: {
-        favorevoli: 10,
-        contrari: 9,
-        astenuti: 4
+  const [items, setItems] = useState<AgendaItemType[]>([])
+  const router = useRouter()
+  const { id } = useParams()
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/line/assembly/${id}`, {
+          withCredentials: true,
+        })
+        const fetchedItems = await Promise.all(response.data.map(async (item: any) => {
+          if (item.votes.length > 0) {
+            const resultsResponse = await axios.get(`http://${API_BASE_URL}/line/results/${item.id}`, {
+              withCredentials: true,
+            })
+            return {
+              id: item.id,
+              type: 'voting',
+              text: item.text,
+              votes: resultsResponse.data
+            }
+          } else {
+            return {
+              id: item.id,
+              type: 'text',
+              text: item.text
+            }
+          }
+        }))
+        setItems(fetchedItems)
+      } catch (error) {
+        console.error('Errore nel fetch degli items:', error)
       }
     }
-  ])
 
-  const router = useRouter()
+    const verifyToken = async () => {
+      try {
+        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
+          withCredentials: true,
+        })
+        
+        if (response.status === 200) {
+          fetchItems()
+        }
+      } catch (error) {
+        router.push('/')
+      }
+    }
+  
+    verifyToken()
+  }, [id])
 
   const handleDelete = (id: number) => {
     setItems(items.filter(item => item.id !== id))
@@ -52,42 +84,14 @@ export default function OrdineDelGiornoPage() {
   }
 
   const handleAddVotingItem = async (text: string, file: File) => {
-    // Here you would process the file and extract the voting results
-    // For now, we'll just add dummy data
     const newId = Math.max(...items.map(item => item.id)) + 1
-    
-    // TODO: Replace with actual file processing
     const dummyVotes = {
       favorevoli: 0,
       contrari: 0,
       astenuti: 0
     }
-
-    setItems([...items, {
-      id: newId,
-      type: 'voting',
-      text,
-      votes: dummyVotes
-    }])
+    setItems([...items, { id: newId, type: 'voting', text, votes: dummyVotes }])
   }
-
-  useEffect(() => {
-    const verifyToken = async () => {
-      try {
-        const response = await axios.get(`http://${API_BASE_URL}/authentication/verify-token`, {
-          withCredentials: true,
-        });
-        
-        if (response.status === 200) {
-          
-        }
-      } catch (error) {
-        router.push('/')
-      }
-    };
-  
-    verifyToken();
-  }, []);
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">
@@ -117,7 +121,7 @@ export default function OrdineDelGiornoPage() {
           ))}
           {items.length === 0 && (
               <p className="text-center text-gray-500">
-                Nessun punto prensente
+                Nessun punto presente
               </p>
           )}
         </div>
@@ -130,4 +134,3 @@ export default function OrdineDelGiornoPage() {
     </div>
   )
 }
-
