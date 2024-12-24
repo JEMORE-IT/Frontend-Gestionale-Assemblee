@@ -62,38 +62,42 @@ export default function PresentiPage() {
   const handleBulkAdd = (file: File) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
-      const text = e.target?.result as string;
-      const lines = text.split('\n').slice(1); // Skip header line
-      const presenze = lines.map(line => {
-        const [name, status] = line.split(',');
-        const member = members.find(m => m.name.trim() === name.trim());
-        return {
-          presenza: typeToEnum(status.trim()),
-          assembly: +id,
-          member: member ? member.id : null
-        };
-      }).filter(p => p.member !== null);
-  
-      try {
-        const response = await axios.post(`http://${API_BASE_URL}/presence/bulk-create`, presenze, {
-          withCredentials: true,
-        });
-  
-        if (response.status === 200) {
-          const newAttendees = response.data.map((p: any) => ({
-            id: p.id,
-            name: p.member.name,
-            assembly: p.assembly.id,
-            status: enumToType(p.presenza)
-          } as Attendee));
-          setAttendees([...attendees, ...newAttendees]);
+        const text = e.target?.result as string;
+        const lines = text.split('\n').slice(1); // Skip header line
+        const presenze = lines.map(line => {
+            const [name, status] = line.split(',');
+            const member = members.find(m => m.name.trim() === name.trim());
+            return {
+                presenza: typeToEnum(status.trim()),
+                assembly: +id,
+                member: member ? member.id : null
+            };
+        }).filter(p => p.member !== null);
+
+        try {
+            const response = await axios.post(`http://${API_BASE_URL}/presence/bulk-create`, presenze, {
+                withCredentials: true,
+            });
+
+            if (response.status === 200) {
+                const newAttendees = response.data.results.map((p: any) => ({
+                    id: p.id,
+                    name: p.member.name,
+                    assembly: p.assembly.id,
+                    status: enumToType(p.presenza)
+                } as Attendee));
+                setAttendees([...attendees, ...newAttendees]);
+
+                if (response.data.errors.length > 0) {
+                    console.log('Alcune presenze non sono state aggiunte:', response.data.errors);
+                }
+            }
+        } catch (error) {
+            console.log('Errore durante l\'aggiunta delle presenze in blocco');
         }
-      } catch (error) {
-        console.log('Errore durante l\'aggiunta delle presenze in blocco');
-      }
     };
     reader.readAsText(file);
-  }
+}
 
   const handleAdd = (mid: number | null, status: string) => {
     const addRequest = async () => {
