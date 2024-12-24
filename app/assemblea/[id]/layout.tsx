@@ -58,80 +58,76 @@ export default function RootLayout({
   }, [id]);
 
   return (
-    <html lang="it">
-      <body className={inter.className}>
-        <div className="flex h-screen">
-          {/* Hamburger menu for mobile */}
-          <button
-            className="fixed top-4 left-4 z-50 md:hidden text-white"
-            onClick={toggleSidebar}
-          >
-            {isSidebarOpen ? <X className="text-red-600" size={24} /> : <Menu size={24} />}
-          </button>
+    <div className="flex h-screen">
+      {/* Hamburger menu for mobile */}
+      <button
+        className="fixed top-4 left-4 z-50 md:hidden text-white"
+        onClick={toggleSidebar}
+      >
+        {isSidebarOpen ? <X className="text-red-600" size={24} /> : <Menu size={24} />}
+      </button>
 
-          {/* Sidebar */}
-          <aside
-            className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
-              isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            }`}
-          >
-            <div className="flex flex-col h-full">
-              <div className="p-6 flex-grow">
-                <div className="mb-6" >
-                  <h2 className="mt-6 md:mt-0 text-xl font-bold">Assemblea</h2>
-                  <p className="text-sm text-gray-600">{assembleaData.data}</p>
-                </div>
-                
-                <nav className="space-y-2">
-                  {[
-                    { href: "/assemblea/" + id +"/ordine-del-giorno", label: "Ordine del giorno" },
-                    { href: "/assemblea/" + id +"/presenti", label: "Presenti" },
-                    { href: "/assemblea/" + id +"/deleghe", label: "Deleghe" },
-                    { href: "/assemblea/" + id +"/informazioni", label: "Informazioni" },
-                  ].map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`block rounded-lg px-4 py-2 text-sm ${
-                        pathname === link.href
-                          ? "bg-[#3B44AC] text-white"
-                          : "hover:bg-gray-100"
-                      }`}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-
-              <div className="space-y-2 p-6">
-                <button className="w-full rounded-lg bg-black px-4 py-2 text-sm text-white">
-                  Download
-                </button>
-                <Link
-                  href="/anagrafica"
-                  className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
-                >
-                  Anagrafica
-                </Link>
-                <Link
-                  href="/assemblee"
-                  className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
-                >
-                  Assemblee
-                </Link>
-              </div>
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          <div className="p-6 flex-grow">
+            <div className="mb-6" >
+              <h2 className="mt-6 md:mt-0 text-xl font-bold">Assemblea</h2>
+              <p className="text-sm text-gray-600">{assembleaData.data}</p>
             </div>
-          </aside>
+            
+            <nav className="space-y-2">
+              {[
+                { href: "/assemblea/" + id +"/ordine-del-giorno", label: "Ordine del giorno" },
+                { href: "/assemblea/" + id +"/presenti", label: "Presenti" },
+                { href: "/assemblea/" + id +"/deleghe", label: "Deleghe" },
+                { href: "/assemblea/" + id +"/informazioni", label: "Informazioni" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block rounded-lg px-4 py-2 text-sm ${
+                    pathname === link.href
+                      ? "bg-[#3B44AC] text-white"
+                      : "hover:bg-gray-100"
+                  }`}
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
-          {/* Main content */}
-          <main className="flex-1 overflow-auto bg-[#3B44AC] relative">
-            {children}
-          </main>
+          <div className="space-y-2 p-6">
+            <button className="w-full rounded-lg bg-black px-4 py-2 text-sm text-white">
+              Download
+            </button>
+            <Link
+              href="/anagrafica"
+              className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
+            >
+              Anagrafica
+            </Link>
+            <Link
+              href="/assemblee"
+              className="block w-full rounded-lg bg-[#FFD241] px-4 py-2 text-sm text-center"
+            >
+              Assemblee
+            </Link>
+          </div>
         </div>
-      </body>
-    </html>
+      </aside>
+
+      {/* Main content */}
+      <main className="flex-1 overflow-auto bg-[#3B44AC] relative">
+        {children}
+      </main>
+    </div>
   )
 }
 
