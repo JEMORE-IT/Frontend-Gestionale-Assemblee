@@ -215,9 +215,8 @@ export default function PresentiPage() {
 
       <div className="mt-4 flex justify-between">
         <AddBulkDialog text="Aggiungi presenze in blocco" onAdd={handleBulkAdd} />
-        <AddAttendeeDialog options={members} onAdd={handleAdd} />
+        <AddAttendeeDialog options={members} attendees={attendees} onAdd={handleAdd}/>
       </div>
     </div>
   )
 }
-

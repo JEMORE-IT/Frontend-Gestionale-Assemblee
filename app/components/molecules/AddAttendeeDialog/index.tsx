@@ -20,7 +20,7 @@ import SearchableDropdown from '@atoms/SearchableDropdown';
 import AddAttendeeDialogProps from './index.types';
 import { Plus } from 'lucide-react';
 
-const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, onAdd }) => {
+const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, attendees, onAdd }) => {
   const [name, setName] = useState<string | null>(null);
   const [memberId, setMemberId] = useState<number | null>(null);
   const [status, setStatus] = useState('');
@@ -40,6 +40,11 @@ const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, onAdd }) => {
     setName(value);
     setMemberId(mid);
   };
+
+  // Filtra le opzioni per escludere gli attendees già presenti
+  const filteredOptions = options.filter(option => 
+    !attendees.some(attendee => attendee.name === option.name)
+  );
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -64,7 +69,7 @@ const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, onAdd }) => {
             </label>
             <SearchableDropdown
               id="participantName"
-              options={options}
+              options={filteredOptions}
               label="name"
               selectedVal={name || ''}
               handleChange={handleChange}
