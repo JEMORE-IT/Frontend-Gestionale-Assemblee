@@ -38,7 +38,44 @@ export default function DeleghePage() {
   }
 
   const handleBulkAdd = (file: File) => {
-    
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        const text = e.target?.result as string;
+        const lines = text.split('\n').slice(1); // Skip header line
+        const deleghe = lines.map(line => {
+            const [deleganteName, delegatoName] = line.split(',');
+            const delegante = members.find(m => m.name.trim() === deleganteName.trim());
+            const delegato = members.find(m => m.name.trim() === delegatoName.trim());
+            return {
+                assembly: +id,
+                delegante: delegante ? delegante.id : null,
+                delegato: delegato ? delegato.id : null
+            };
+        }).filter(d => d.delegante !== null && d.delegato !== null);
+
+        try {
+            const response = await axios.post(`http://${API_BASE_URL}/delegation/bulk-create`, deleghe, {
+                withCredentials: true,
+            });
+
+            if (response.status === 200) {
+                const newDelegations = response.data.results.map((d: any) => ({
+                    id: d.id,
+                    delegante: d.delegante.name,
+                    delegato: d.delegato.name,
+                    assembly: d.assembly.id
+                } as Delegation));
+                setDelegations([...delegations, ...newDelegations]);
+
+                if (response.data.errors.length > 0) {
+                    console.log('Alcune deleghe non sono state aggiunte:', response.data.errors);
+                }
+            }
+        } catch (error) {
+            console.log('Errore durante l\'aggiunta delle deleghe in blocco');
+        }
+    };
+    reader.readAsText(file);
   }
 
   const handleAdd = (delegante: number | null, delegato: number | null) => {
