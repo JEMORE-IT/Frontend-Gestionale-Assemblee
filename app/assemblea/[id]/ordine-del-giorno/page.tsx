@@ -78,9 +78,26 @@ export default function OrdineDelGiornoPage() {
     setItems(items.filter(item => item.id !== id))
   }
 
-  const handleAddAgendaItem = (text: string) => {
-    const newId = Math.max(...items.map(item => item.id)) + 1
-    setItems([...items, { id: newId, type: 'text', text }])
+  const handleAddAgendaItem = async (text: string) => {
+    try {
+      const response = await axios.post(`http://${API_BASE_URL}/line`, {
+        text,
+        assembly: id,
+      }, {
+        withCredentials: true,
+      })
+
+      if (response.status === 200) {
+        const newItem: AgendaItemType = {
+          id: response.data.id,
+          type: 'text',
+          text: response.data.text
+        }
+        setItems([...items, newItem])
+      }
+    } catch (error) {
+      console.error('Errore durante l\'aggiunta del punto:', error)
+    }
   }
 
   const handleAddVotingItem = async (text: string, file: File) => {
