@@ -41,10 +41,14 @@ const AddAttendeeDialog: FC<AddAttendeeDialogProps> = ({ options, attendees, onA
     setMemberId(mid);
   };
 
-  // Filtra le opzioni per escludere gli attendees già presenti
-  const filteredOptions = options.filter(option => 
-    !attendees.some(attendee => attendee.name === option.name)
-  );
+  // Filtra le opzioni per escludere gli attendees già presenti e ordina le opzioni
+  const filteredOptions = options
+    .filter(option => !attendees.some(attendee => attendee.name === option.name))
+    .sort((a, b) => {
+      if (a.active && !b.active) return -1;
+      if (!a.active && b.active) return 1;
+      return 0;
+    });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

@@ -87,7 +87,7 @@ const SearchableDropdown: FC<SearchableDropdownProps> = ({
               onClick={() => selectOption(option)} // Seleziona l'opzione
               className={`cursor-pointer px-4 py-2 ${
                 option.name === selectedVal ? "bg-blue-100" : "hover:bg-gray-100"
-              }`}
+              } ${!option.active ? "text-gray-400" : ""}`}
             >
               {option.name}
             </div>
