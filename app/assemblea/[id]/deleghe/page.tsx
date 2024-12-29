@@ -121,7 +121,8 @@ export default function DeleghePage() {
         })
         let list: Option[] = response.data.map((r: any) => ({
           id: r.id,
-          name: r.name
+          name: r.name,
+          active: r.active
         }))
         setMembers(list)
       } catch (error) {

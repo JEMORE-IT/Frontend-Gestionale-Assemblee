@@ -47,9 +47,15 @@ const SearchableDropdown: FC<SearchableDropdownProps> = ({
 
   // Filtrare le opzioni in base alla query
   const filterOptions = (options: Option[]) => {
-    return options.filter((option) =>
-      option.name.toLowerCase().includes(query.toLowerCase())
-    );
+    return options
+      .filter(option =>
+        option.name.toLowerCase().includes(query.toLowerCase())
+      )
+      .sort((a, b) => {
+        if (a.active && !b.active) return -1;
+        if (!a.active && b.active) return 1;
+        return 0;
+      });
   };
 
   return (
