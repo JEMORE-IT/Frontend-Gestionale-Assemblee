@@ -1,6 +1,7 @@
 export interface Option {
     id: number,
     name: string
+    active: boolean
 }
 
 export default interface SearchableDropdownProps {

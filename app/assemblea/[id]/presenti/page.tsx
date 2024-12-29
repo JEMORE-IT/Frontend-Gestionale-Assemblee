@@ -158,7 +158,8 @@ export default function PresentiPage() {
         })
         let list: Option[] = response.data.map((r: any) => ({
           id: r.id,
-          name: r.name
+          name: r.name,
+          active: r.active
         }))
         setMembers(list)
       } catch (error) {
@@ -184,6 +185,17 @@ export default function PresentiPage() {
     verifyToken();
     fetchMembers();
   }, []);
+
+  const activeMembers = members.filter(m => m.active)
+  const activeMembersCount = activeMembers.length
+
+  const presentOnlineCount = attendees
+    .filter(a => a.status === 'Presente' || a.status === 'Online')
+    .filter(a => activeMembers.some(am => am.name === a.name)).length
+
+  const presentOnlinePercentage = activeMembersCount === 0 
+    ? 0 
+    : (presentOnlineCount / activeMembersCount) * 100
 
   return (
     <div className="flex h-full flex-col p-4 md:p-8">
@@ -215,6 +227,9 @@ export default function PresentiPage() {
 
       <div className="mt-4 flex justify-between">
         <AddBulkDialog text="Aggiungi presenze in blocco" onAdd={handleBulkAdd} />
+        <p className='text-white'>
+          {presentOnlineCount} / {activeMembersCount} membri votanti presenti o online ({presentOnlinePercentage.toFixed(1)}%)
+        </p>
         <AddAttendeeDialog options={members} attendees={attendees} onAdd={handleAdd}/>
       </div>
     </div>
