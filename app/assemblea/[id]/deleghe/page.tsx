@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import DelegationRow from '@molecules/DelegationRow'
-import { Button } from "@atoms/ui/button"
 import AddDelegationDialog from '@molecules/AddDelegationDialog'
 import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'

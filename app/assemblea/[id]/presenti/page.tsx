@@ -227,7 +227,7 @@ export default function PresentiPage() {
 
       <div className="mt-4 flex justify-between">
         <AddBulkDialog text="Aggiungi presenze in blocco" onAdd={handleBulkAdd} />
-        <p className='text-white'>
+        <p className='text-white text-sm md:text-base text-center'>
           {presentOnlineCount} / {activeMembersCount} membri votanti presenti o online ({presentOnlinePercentage.toFixed(1)}%)
         </p>
         <AddAttendeeDialog options={members} attendees={attendees} onAdd={handleAdd}/>
